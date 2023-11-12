@@ -54,34 +54,24 @@ public class ExcelExporter {
 
         // Save the workbook to a file
         try {
-            File file = createExcelFile(context);
+            File file = createFile(context, "abhinav_excel.xlsx");
             FileOutputStream fileOut = new FileOutputStream(file);
             workbook.write(fileOut);
             fileOut.close();
-            Toast.makeText(context, "Excel file exported successfully", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Excel file exported successfully to: " + file.getPath(), Toast.LENGTH_SHORT).show();
         } catch (IOException e) {
             Log.e("ExcelExporter", "Error exporting Excel file: " + e.getMessage());
             Toast.makeText(context, "Error exporting Excel file", Toast.LENGTH_SHORT).show();
         }
     }
 
-    private static File createExcelFile(Context context) throws IOException {
-        // Get the app-specific directory
-        File directory = new File(context.getExternalFilesDir(null), "PennyPal");
-
-        if (!directory.exists()) {
-            if (!directory.mkdirs()) {
-                Log.e("ExcelExporter", "Failed to create directory");
-            }
-        }
-
-        // Create a file with a unique name
-        String fileName = "abhinav_excel.xlsx";
-        File file = new File(directory, fileName);
-        file.createNewFile();
-
-        return file;
+    private static File createFile(Context context, String fileName) throws IOException {
+        File directory = getDownloadDirectory(context, "PennyPal");
+        return new File(directory, fileName);
     }
 
-
+    private static File getDownloadDirectory(Context context, String subDirectory) {
+        File directory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+        return directory;
+    }
 }
