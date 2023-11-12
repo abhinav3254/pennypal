@@ -7,9 +7,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
+import com.example.pennypal.database.DatabaseHelper;
 import com.example.pennypal.database.Expense;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.datepicker.MaterialDatePicker;
@@ -24,6 +26,8 @@ import java.util.Date;
 import java.util.Locale;
 
 public class AddFragment extends Fragment {
+
+    private DatabaseHelper databaseHelper;
 
     private TextInputEditText titleEditText;
     private TextInputEditText amountEditText;
@@ -119,6 +123,7 @@ public class AddFragment extends Fragment {
         expense.setPaymentMethod(paymentMethod);
         expense.setCategory(categoryMethod);
         expense.setDescription(description);
+        expense.setUpdateDate(new Date());
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -131,7 +136,18 @@ public class AddFragment extends Fragment {
             e.printStackTrace();
         }
 
+        databaseHelper = new DatabaseHelper(getContext());
+
         Log.d("3254", "onSaveButtonClick: "+expense.toString());
+
+        long value =  databaseHelper.insertExpense(expense);
+
+        if (value>0) {
+            Toast.makeText(getContext(), "Added", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(getContext(), "Something went wrong", Toast.LENGTH_SHORT).show();
+        }
+
 
     }
 }
