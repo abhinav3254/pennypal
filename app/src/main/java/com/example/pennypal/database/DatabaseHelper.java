@@ -242,4 +242,26 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return data;
     }
 
+
+    /**
+     * Truncates (deletes all records from) the expense table.
+     */
+    public void truncateExpenseTable() {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        try {
+            // Execute SQL query to delete all records
+            db.execSQL("DELETE FROM " + TABLE_NAME);
+
+            // (Optional) Reset auto-increment counter
+            db.execSQL("DELETE FROM SQLITE_SEQUENCE WHERE NAME = '" + TABLE_NAME + "'");
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            // Don't forget to close the database
+            db.close();
+        }
+    }
+
+
 }
