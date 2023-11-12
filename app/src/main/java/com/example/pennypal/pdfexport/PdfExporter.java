@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Environment;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.pennypal.database.DatabaseHelper;
 import com.itextpdf.io.font.FontConstants;
@@ -84,9 +85,11 @@ public class PdfExporter {
             document.close();
 
             Log.d("PdfExporter", "PDF exported successfully to: " + filePath);
+            Toast.makeText(context, "PDF exported successfully to: " + filePath, Toast.LENGTH_LONG).show();
 
         } catch (IOException e) {
             e.printStackTrace();
+            Toast.makeText(context, "Error exporting PDF: " + e.getMessage(), Toast.LENGTH_LONG).show();
             Log.e("PdfExporter", "Error exporting PDF: " + e.getMessage());
         }
     }
