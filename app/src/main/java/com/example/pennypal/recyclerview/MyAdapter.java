@@ -89,4 +89,14 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
             textViewDate = itemView.findViewById(R.id.textViewDate);
         }
     }
+
+    /**
+     * Update the data in the adapter and refresh the RecyclerView.
+     *
+     * @param newData The new list of Expense objects.
+     */
+    public void updateData(List<Expense> newData) {
+        data = newData;
+        notifyDataSetChanged();
+    }
 }

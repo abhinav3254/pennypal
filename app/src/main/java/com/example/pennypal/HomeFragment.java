@@ -15,6 +15,9 @@ import com.example.pennypal.recyclerview.MyAdapter;
 
 import java.util.List;
 
+/**
+ * The HomeFragment class represents the fragment responsible for displaying a list of expenses.
+ */
 public class HomeFragment extends Fragment {
 
     private RecyclerView recyclerView;
@@ -25,21 +28,36 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+        initializeViews(view);
+        setupRecyclerView();
+        retrieveExpenses();
+        return view;
+    }
 
-        // Initialize RecyclerView
+    /**
+     * Initializes views in the fragment.
+     *
+     * @param view The fragment's root view.
+     */
+    private void initializeViews(View view) {
         recyclerView = view.findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+    }
 
-        // Initialize database helper
-        databaseHelper = new DatabaseHelper(getActivity());
-
-        // Retrieve expenses from the database
-        expenseList = databaseHelper.getAllExpenses();
-
-        // Initialize adapter and set it to RecyclerView
+    /**
+     * Sets up the RecyclerView with the necessary configurations and adapters.
+     */
+    private void setupRecyclerView() {
+        recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
+        databaseHelper = new DatabaseHelper(requireActivity());
         adapter = new MyAdapter(expenseList);
         recyclerView.setAdapter(adapter);
+    }
 
-        return view;
+    /**
+     * Retrieves expenses from the database and updates the adapter.
+     */
+    private void retrieveExpenses() {
+        expenseList = databaseHelper.getAllExpenses();
+        adapter.updateData(expenseList);
     }
 }
