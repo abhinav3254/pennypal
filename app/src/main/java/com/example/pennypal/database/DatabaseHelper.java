@@ -146,4 +146,50 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         return expenses;
     }
+
+    // Method to get column names of the table
+    public List<String> getTableColumns() {
+        List<String> columns = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery("PRAGMA table_info(" + TABLE_NAME + ")", null);
+        try {
+            if (cursor.moveToFirst()) {
+                do {
+                    String columnName = cursor.getString(cursor.getColumnIndexOrThrow("name"));
+                    columns.add(columnName);
+                } while (cursor.moveToNext());
+            }
+        } finally {
+            cursor.close();
+            db.close();
+        }
+
+        return columns;
+    }
+
+    // Method to get all data from the table
+    public List<List<String>> getTableData() {
+        List<List<String>> data = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
+        try {
+            if (cursor.moveToFirst()) {
+                do {
+                    List<String> rowData = new ArrayList<>();
+                    for (int i = 0; i < cursor.getColumnCount(); i++) {
+                        rowData.add(cursor.getString(i));
+                    }
+                    data.add(rowData);
+                } while (cursor.moveToNext());
+            }
+        } finally {
+            cursor.close();
+            db.close();
+        }
+
+        return data;
+    }
+
 }
