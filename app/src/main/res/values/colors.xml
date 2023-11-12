@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <color name="one">#e0cfe9</color>
+    <color name="two">#88bab0</color>
+    <color name="three">#232b4b</color>
+    <color name="purple_one">#8b72d7</color>
+    <color name="five">#788999</color>
+    <color name="purple_two">#58459e</color>
+    <color name="seven">#628d86</color>
+    <color name="eight">#110f22</color>
+    <color name="nine">#3d6268</color>
+
+</resources>
