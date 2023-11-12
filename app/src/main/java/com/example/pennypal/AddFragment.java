@@ -7,10 +7,12 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textview.MaterialTextView;
 
 import java.text.SimpleDateFormat;
@@ -28,15 +30,29 @@ public class AddFragment extends Fragment {
         final MaterialButton showDatePickerButton = view.findViewById(R.id.showDatePickerButton);
         final MaterialTextView showDatePickerTextView = view.findViewById(R.id.showDatePickerTextView);
 
-                showDatePickerButton.setOnClickListener(new View.OnClickListener() {
+        showDatePickerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 showDatePicker(showDatePickerTextView);
             }
         });
 
+        // For drop-downs
+        MaterialAutoCompleteTextView paymentMethod = view.findViewById(R.id.paymentMethod);
+        MaterialAutoCompleteTextView categoryMethod = view.findViewById(R.id.categoryMethod);
+
+        String[] items = {"Item 1", "Item 2", "Item 3", "Item 4", "Item 5"};
+
+        // Use the fragment's context (getActivity()) instead of this
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_dropdown_item_1line, items);
+
+        // Apply the adapter to the MaterialAutoCompleteTextView
+        paymentMethod.setAdapter(adapter);
+        categoryMethod.setAdapter(adapter);
+
         return view;
     }
+
 
 
     //    for date picker
