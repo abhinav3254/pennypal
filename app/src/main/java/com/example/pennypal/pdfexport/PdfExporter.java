@@ -24,23 +24,25 @@ import com.itextpdf.layout.element.Table;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+
+// ... (previous imports)
 
 public class PdfExporter {
 
     private static final int REQUEST_CODE_OPEN_DIRECTORY = 100;
+    private static final String DATE_FORMAT_PATTERN = "yyyy:MM:dd HH:mm:ss";
 
     public static void exportDataToPdf(Context context, DatabaseHelper databaseHelper) {
-        // Request access to a directory on external storage if the app does not have it.
         if (context.checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             // You should request the WRITE_EXTERNAL_STORAGE permission here.
             // For simplicity, you can assume the permission is already granted for now.
         }
 
-        // Specify the file name for the PDF
-        String fileName = "database_export.pdf";
-
-        // Create a directory to store the exported PDF file
+        String fileName = "abhinav_expense.pdf";
         File directory;
         if (context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS) != null) {
             directory = context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS);
@@ -51,37 +53,33 @@ public class PdfExporter {
         String filePath = directory.getAbsolutePath() + File.separator + fileName;
 
         try {
-            // Create a PdfWriter instance
             PdfWriter writer = new PdfWriter(filePath);
-
-            // Initialize PDF document
             PdfDocument pdfDocument = new PdfDocument(writer);
             Document document = new Document(pdfDocument);
 
-            // Retrieve column names from the database helper
             List<String> columnNames = databaseHelper.getTableColumns();
-
-            // Create a table with column names as headers
             Table table = new Table(columnNames.size());
             PdfFont font = PdfFontFactory.createFont(FontConstants.HELVETICA_BOLD);
 
-            // Add column names as headers using a for loop
             for (int i = 0; i < columnNames.size(); i++) {
                 table.addHeaderCell(new Cell().add(new Paragraph(columnNames.get(i))).setFont(font).setBackgroundColor(new DeviceRgb(140, 221, 8)));
             }
 
-            // Retrieve data from the database helper and add it to the table
             List<List<String>> data = databaseHelper.getTableData();
             for (List<String> row : data) {
-                for (String cell : row) {
+                for (int i = 0; i < row.size(); i++) {
+                    String cell = row.get(i);
+
+                    // Check if the column is a date and format accordingly
+                    if (isDateColumn(columnNames.get(i)) && isDate(cell)) {
+                        cell = formatDate(cell);
+                    }
+
                     table.addCell(new Cell().add(new Paragraph(cell)));
                 }
             }
 
-            // Add the table to the document
             document.add(table);
-
-            // Close the document
             document.close();
 
             Log.d("PdfExporter", "PDF exported successfully to: " + filePath);
@@ -94,14 +92,27 @@ public class PdfExporter {
         }
     }
 
-    public static void onActivityResult(Context context, int requestCode, int resultCode, Intent intent) {
-        if (requestCode == REQUEST_CODE_OPEN_DIRECTORY && resultCode == RESULT_OK) {
-            // The user has granted access to a directory on external storage.
-            Uri directoryUri = intent.getData();
-            DatabaseHelper databaseHelper = new DatabaseHelper(context);
+    private static boolean isDate(String value) {
+        // TODO: Implement your date detection logic
+        // For simplicity, assuming all strings are dates
+        return true;
+    }
 
-            // Export the database to the selected directory.
-            exportDataToPdf(context, databaseHelper);
+    private static String formatDate(String dateStr) {
+        try {
+            long timestamp = Long.parseLong(dateStr);
+            Date date = new Date(timestamp);
+
+            SimpleDateFormat outputFormat = new SimpleDateFormat(DATE_FORMAT_PATTERN, Locale.getDefault());
+            return outputFormat.format(date);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return dateStr; // Return the original string if an error occurs
         }
+    }
+
+    private static boolean isDateColumn(String columnName) {
+        // Specify the columns that should be formatted as dates
+        return columnName.equals("_date") || columnName.equals("_update_date");
     }
 }
