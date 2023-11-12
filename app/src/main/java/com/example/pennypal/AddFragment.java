@@ -1,7 +1,6 @@
 package com.example.pennypal;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,9 +14,7 @@ import com.example.pennypal.database.DatabaseHelper;
 import com.example.pennypal.database.Expense;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.datepicker.MaterialDatePicker;
-import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
 import com.google.android.material.textview.MaterialTextView;
 
 import java.text.ParseException;
@@ -25,59 +22,76 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+
+
+/**
+ * The AddFragment class represents the fragment responsible for adding new expenses.
+ * It includes UI elements for capturing expense details, such as title, amount, date, etc.
+ * The user can interact with spinners and a date picker to input information, and the data
+ * is then saved to a SQLite database using the DatabaseHelper class.
+ */
 public class AddFragment extends Fragment {
 
+    // Database helper instance to manage expenses
     private DatabaseHelper databaseHelper;
 
-    private TextInputEditText titleEditText;
-    private TextInputEditText amountEditText;
-    private Spinner paymentMethodSpinner;
-    private Spinner categoryMethodSpinner;
-    private TextInputEditText descriptionEditText;
+    // UI elements
+    private TextInputEditText titleEditText, amountEditText, descriptionEditText;
+    private Spinner paymentMethodSpinner, categoryMethodSpinner;
     private MaterialTextView showDatePickerTextView;
-
     private String customSelectedDate;
 
+    /**
+     * Called when the fragment should create its user interface view.
+     *
+     * @param inflater           The LayoutInflater object that can be used to inflate any views in the fragment.
+     * @param container          If non-null, this is the parent view that the fragment's UI should be attached to.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed from a previous saved state as given here.
+     * @return Return the View for the fragment's UI, or null.
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_add, container, false);
+        return inflater.inflate(R.layout.fragment_add, container, false);
+    }
 
-        final MaterialButton showDatePickerButton = view.findViewById(R.id.showDatePickerButton);
-        MaterialTextView showDatePickerTextView = view.findViewById(R.id.showDatePickerTextView);
+    /**
+     * Called after onCreateView() when the view hierarchy has been created.
+     * Initializes UI elements, sets up spinners, and configures button click listeners.
+     *
+     * @param view               The fragment's root view.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed from a previous saved state as given here.
+     */
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        // Initialize UI elements
+        initializeViews(view);
 
-        TextInputLayout titleLayout = view.findViewById(R.id.title);
-        titleEditText = titleLayout.findViewById(R.id.textInputEditText);
+        // Setup spinners with default items
+        setupSpinners();
 
+        // Setup click listeners for buttons
+        setupButtonClickListeners();
+    }
+
+    /**
+     * Initialize UI elements by finding views in the layout.
+     *
+     * @param view The fragment's root view.
+     */
+    private void initializeViews(View view) {
+        titleEditText = view.findViewById(R.id.textInputEditText);
         amountEditText = view.findViewById(R.id.amount);
         paymentMethodSpinner = view.findViewById(R.id.paymentMethodSpinner);
         categoryMethodSpinner = view.findViewById(R.id.categoryMethodSpinner);
         descriptionEditText = view.findViewById(R.id.description);
         showDatePickerTextView = view.findViewById(R.id.showDatePickerTextView);
-
-        MaterialButton saveButton = view.findViewById(R.id.saveButton);
-        saveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onSaveButtonClick();
-            }
-        });
-
-        MaterialTextView finalShowDatePickerTextView = showDatePickerTextView;
-        showDatePickerButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                customSelectedDate = showDatePicker(finalShowDatePickerTextView);
-            }
-        });
-
-        setupSpinners();
-
-        return view;
     }
 
+    /**
+     * Setup spinners with default items.
+     */
     private void setupSpinners() {
         String[] items = {"Item 1", "Item 2", "Item 3", "Item 4", "Item 5"};
-
         ArrayAdapter<String> adapter = new ArrayAdapter<>(requireActivity(), android.R.layout.simple_spinner_item, items);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
@@ -85,69 +99,83 @@ public class AddFragment extends Fragment {
         categoryMethodSpinner.setAdapter(adapter);
     }
 
+    /**
+     * Setup click listeners for buttons.
+     * Sets click listeners for the date picker button and the save button.
+     */
+    private void setupButtonClickListeners() {
+        MaterialButton showDatePickerButton = requireView().findViewById(R.id.showDatePickerButton);
+        MaterialTextView finalShowDatePickerTextView = showDatePickerTextView;
+
+        // Set click listener for the date picker button
+        showDatePickerButton.setOnClickListener(view -> customSelectedDate = showDatePicker(finalShowDatePickerTextView));
+
+        // Set click listener for the save button
+        requireView().findViewById(R.id.saveButton).setOnClickListener(view -> onSaveButtonClick());
+    }
+
+    /**
+     * Display a date picker dialog and update the selected date in the TextView.
+     *
+     * @param materialTextView The TextView to display the selected date.
+     * @return The selected date in string format.
+     */
     private String showDatePicker(MaterialTextView materialTextView) {
         MaterialDatePicker<Long> builder = MaterialDatePicker.Builder.datePicker().build();
 
-        builder.addOnPositiveButtonClickListener(new MaterialPickerOnPositiveButtonClickListener<Long>() {
-            @Override
-            public void onPositiveButtonClick(Long selection) {
-                String formattedDate = formatDate(selection);
-                materialTextView.setText(formattedDate);
-                customSelectedDate = formattedDate;
-            }
+        builder.addOnPositiveButtonClickListener(selection -> {
+            materialTextView.setText(formatDate(selection));
+            customSelectedDate = formatDate(selection);
         });
 
         builder.show(requireActivity().getSupportFragmentManager(), "DATE_PICKER");
 
-        return customSelectedDate; // Return the selected date
+        return customSelectedDate;
     }
 
+    /**
+     * Format a date in milliseconds to the "yyyy-MM-dd" format.
+     *
+     * @param dateInMillis The date in milliseconds.
+     * @return The formatted date string.
+     */
     private String formatDate(Long dateInMillis) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-        return sdf.format(new Date(dateInMillis));
+        return new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date(dateInMillis));
     }
 
+    /**
+     * Handle the click event of the save button.
+     * Create an Expense object, set its properties, and insert it into the database.
+     */
     private void onSaveButtonClick() {
-        String title = titleEditText.getText().toString();
-        String amount = amountEditText.getText().toString();
-        String paymentMethod = paymentMethodSpinner.getSelectedItem().toString();
-        String categoryMethod = categoryMethodSpinner.getSelectedItem().toString();
-        String description = descriptionEditText.getText().toString();
-//        String selectedDate = showDatePickerTextView.getText().toString();
-        String selectedDate = customSelectedDate;
-
-
+        // Create an Expense object and set its properties
         Expense expense = new Expense();
-        expense.setTitle(title);
-        expense.setAmount(Double.parseDouble(amount));
-        expense.setPaymentMethod(paymentMethod);
-        expense.setCategory(categoryMethod);
-        expense.setDescription(description);
+        expense.setTitle(titleEditText.getText().toString());
+        expense.setAmount(Double.parseDouble(amountEditText.getText().toString()));
+        expense.setPaymentMethod(paymentMethodSpinner.getSelectedItem().toString());
+        expense.setCategory(categoryMethodSpinner.getSelectedItem().toString());
+        expense.setDescription(descriptionEditText.getText().toString());
         expense.setUpdateDate(new Date());
 
+        // Parse the selected date and set it in the Expense object
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-
         try {
-            Date date = dateFormat.parse(selectedDate);
+            Date date = dateFormat.parse(customSelectedDate);
             System.out.println("Parsed Date: " + date);
             expense.setDate(date);
         } catch (ParseException e) {
+            // If parsing fails, set the current date
             expense.setDate(new Date());
             e.printStackTrace();
         }
 
+        // Initialize the database helper
         databaseHelper = new DatabaseHelper(getContext());
 
-        Log.d("3254", "onSaveButtonClick: "+expense.toString());
+        // Insert the expense into the database and get the result
+        long value = databaseHelper.insertExpense(expense);
 
-        long value =  databaseHelper.insertExpense(expense);
-
-        if (value>0) {
-            Toast.makeText(getContext(), "Added", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(getContext(), "Something went wrong", Toast.LENGTH_SHORT).show();
-        }
-
-
+        // Show a toast message based on the insertion result
+        Toast.makeText(getContext(), (value > 0) ? "Added" : "Something went wrong", Toast.LENGTH_SHORT).show();
     }
 }
