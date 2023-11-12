@@ -1,0 +1,40 @@
+<!-- res/layout/nav_header.xml -->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="160dp"
+    android:orientation="vertical"
+    android:gravity="bottom"
+    android:background="?attr/colorPrimary">
+
+    <!-- Profile Image or Icon -->
+    <ImageView
+        android:id="@+id/profileImage"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="8dp"
+        android:src="@drawable/krati"
+        android:contentDescription="@string/app_name"/>
+
+    <!-- User Name -->
+    <TextView
+        android:id="@+id/usernameTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="John Doe"
+        android:textSize="16sp"
+        android:textColor="@android:color/white"/>
+
+    <!-- User Email -->
+    <TextView
+        android:id="@+id/emailTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="john.doe@example.com"
+        android:textSize="14sp"
+        android:textColor="@android:color/white"/>
+
+</LinearLayout>
