@@ -29,8 +29,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-// ... (previous imports)
-
 public class PdfExporter {
 
     private static final int REQUEST_CODE_OPEN_DIRECTORY = 100;
@@ -43,12 +41,7 @@ public class PdfExporter {
         }
 
         String fileName = "abhinav_expense.pdf";
-        File directory;
-        if (context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS) != null) {
-            directory = context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS);
-        } else {
-            directory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);
-        }
+        File directory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
 
         String filePath = directory.getAbsolutePath() + File.separator + fileName;
 
@@ -89,6 +82,14 @@ public class PdfExporter {
             e.printStackTrace();
             Toast.makeText(context, "Error exporting PDF: " + e.getMessage(), Toast.LENGTH_LONG).show();
             Log.e("PdfExporter", "Error exporting PDF: " + e.getMessage());
+        }
+    }
+
+    public static void onActivityResult(Context context, int requestCode, int resultCode, Intent intent) {
+        if (requestCode == REQUEST_CODE_OPEN_DIRECTORY && resultCode == RESULT_OK) {
+            Uri directoryUri = intent.getData();
+            DatabaseHelper databaseHelper = new DatabaseHelper(context);
+            exportDataToPdf(context, databaseHelper);
         }
     }
 
