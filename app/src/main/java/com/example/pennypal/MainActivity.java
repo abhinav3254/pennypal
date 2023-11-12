@@ -1,6 +1,7 @@
 package com.example.pennypal;
 
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -51,13 +52,22 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            // Handle other menu item selections...
-        }
-
-        return super.onOptionsItemSelected(item);
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.action_bar_menu, menu);
+        return true;
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_settings) {
+            // Handle the settings action
+            return true;
+        } else {
+            // Add more cases for other menu items if needed
+            return super.onOptionsItemSelected(item);
+        }
+    }
+
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {

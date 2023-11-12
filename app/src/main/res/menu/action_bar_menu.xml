@@ -7,5 +7,10 @@
         android:title="Settings"
         app:showAsAction="never" />
 
+    <item
+        android:id="@+id/delete_all"
+        android:title="Delete All"
+        app:showAsAction="never" />
+
 
 </menu>
