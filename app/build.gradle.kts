@@ -30,6 +30,15 @@ android {
 
 dependencies {
 
+//    implementation("org.apache.poi:poi:5.0.0")
+//    implementation("org.apache.poi:poi-ooxml:5.0.0")
+    // https://mvnrepository.com/artifact/org.apache.poi/poi
+    implementation("org.apache.poi:poi:5.2.3")
+
+
+    // https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml
+    implementation("org.apache.poi:poi-ooxml:5.2.3")
+
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.10.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
