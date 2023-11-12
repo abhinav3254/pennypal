@@ -1,6 +1,7 @@
 package com.example.pennypal;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.Spinner;
 
 import androidx.fragment.app.Fragment;
 
+import com.example.pennypal.database.Expense;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
@@ -16,6 +18,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.android.material.textview.MaterialTextView;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -109,16 +112,26 @@ public class AddFragment extends Fragment {
 //        String selectedDate = showDatePickerTextView.getText().toString();
         String selectedDate = customSelectedDate;
 
-        logValues(title, amount, paymentMethod, categoryMethod, description, selectedDate);
 
-    }
+        Expense expense = new Expense();
+        expense.setTitle(title);
+        expense.setAmount(Double.parseDouble(amount));
+        expense.setPaymentMethod(paymentMethod);
+        expense.setCategory(categoryMethod);
+        expense.setDescription(description);
 
-    private void logValues(String title, String amount, String paymentMethod, String categoryMethod, String description, String selectedDate) {
-        String logMessage = String.format(
-                "Title: %s\nAmount: %s\nPayment Method: %s\nCategory: %s\nDescription: %s\nDate: %s",
-                title, amount, paymentMethod, categoryMethod, description, selectedDate);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-        // Log the values
-        System.out.println(logMessage);
+        try {
+            Date date = dateFormat.parse(selectedDate);
+            System.out.println("Parsed Date: " + date);
+            expense.setDate(date);
+        } catch (ParseException e) {
+            expense.setDate(new Date());
+            e.printStackTrace();
+        }
+
+        Log.d("3254", "onSaveButtonClick: "+expense.toString());
+
     }
 }
