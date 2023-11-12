@@ -11,11 +11,19 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+
+/**
+ * DatabaseHelper class manages the SQLite database for expense-related data.
+ */
 public class DatabaseHelper extends SQLiteOpenHelper {
 
+
+    // Database properties
     private static final String DATABASE_NAME = "expense.db";
     private static final int DATABASE_VERSION = 1;
 
+
+    // Table and column properties
     private static final String TABLE_NAME = "expense";
     private static final String COLUMN_ID = "_id";
     private static final String COLUMN_TITLE = "_title";
@@ -38,22 +46,47 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     COLUMN_DATE + " INTEGER," +
                     COLUMN_UPDATE_DATE + " INTEGER)";
 
+    /**
+     * Constructor for DatabaseHelper.
+     *
+     * @param context The application context.
+     */
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
+
+    /**
+     * Called when the database is created for the first time.
+     *
+     * @param db The SQLiteDatabase instance.
+     */
     @Override
     public void onCreate(SQLiteDatabase db) {
         // Create the table
         db.execSQL(CREATE_TABLE);
     }
 
+
+    /**
+     * Called when the database needs to be upgraded.
+     *
+     * @param db         The SQLiteDatabase instance.
+     * @param oldVersion The old database version.
+     * @param newVersion The new database version.
+     */
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // Handle database upgrade if needed
     }
 
-    // Method for inserting data
+
+    /**
+     * Inserts an expense record into the database.
+     *
+     * @param expense The Expense object to be inserted.
+     * @return The row ID of the newly inserted row, or -1 if an error occurred.
+     */
     public long insertExpense(Expense expense) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -74,7 +107,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return newRowId;
     }
 
-    // Method for updating data
+    /**
+     * Updates an existing expense record in the database.
+     *
+     * @param expense The Expense object with updated values.
+     * @return The number of rows affected (0 for none).
+     */
     public int updateExpense(Expense expense) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -96,7 +134,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return rowsAffected;
     }
 
-    // Method for deleting data
+    /**
+     * Deletes an expense record from the database.
+     *
+     * @param expenseId The ID of the expense to be deleted.
+     * @return The number of rows affected (0 for none).
+     */
     public int deleteExpense(int expenseId) {
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -110,7 +153,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return rowsDeleted;
     }
 
-    // Method for fetching all expenses
+    /**
+     * Retrieves all expenses from the database.
+     *
+     * @return A list of Expense objects representing all expenses.
+     */
     public List<Expense> getAllExpenses() {
         List<Expense> expenses = new ArrayList<>();
         String selectQuery = "SELECT * FROM " + TABLE_NAME;
@@ -147,7 +194,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return expenses;
     }
 
-    // Method to get column names of the table
+    /**
+     * Retrieves the names of all columns in the expense table.
+     *
+     * @return A list of column names.
+     */
     public List<String> getTableColumns() {
         List<String> columns = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
@@ -168,7 +219,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return columns;
     }
 
-    // Method to get all data from the table
+    /**
+     * Retrieves all data from the expense table.
+     *
+     * @return A list of lists representing the entire table data.
+     */
     public List<List<String>> getTableData() {
         List<List<String>> data = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
