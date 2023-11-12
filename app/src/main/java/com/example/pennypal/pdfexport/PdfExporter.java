@@ -29,11 +29,20 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+/**
+ * The PdfExporter class provides methods for exporting data from a DatabaseHelper to a PDF file.
+ */
 public class PdfExporter {
 
     private static final int REQUEST_CODE_OPEN_DIRECTORY = 100;
     private static final String DATE_FORMAT_PATTERN = "yyyy:MM:dd HH:mm:ss";
 
+    /**
+     * Exports data from the provided DatabaseHelper to a PDF file in the Downloads directory.
+     *
+     * @param context         The context of the application.
+     * @param databaseHelper  The DatabaseHelper containing the data to be exported.
+     */
     public static void exportDataToPdf(Context context, DatabaseHelper databaseHelper) {
         if (context.checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             // You should request the WRITE_EXTERNAL_STORAGE permission here.
@@ -85,6 +94,14 @@ public class PdfExporter {
         }
     }
 
+    /**
+     * Handles the result of the file directory selection.
+     *
+     * @param context      The context of the application.
+     * @param requestCode  The request code of the file directory selection.
+     * @param resultCode   The result code of the file directory selection.
+     * @param intent       The intent containing the selected directory URI.
+     */
     public static void onActivityResult(Context context, int requestCode, int resultCode, Intent intent) {
         if (requestCode == REQUEST_CODE_OPEN_DIRECTORY && resultCode == RESULT_OK) {
             Uri directoryUri = intent.getData();
@@ -93,12 +110,24 @@ public class PdfExporter {
         }
     }
 
+    /**
+     * Checks if the given value represents a date.
+     *
+     * @param value The value to be checked.
+     * @return True if the value represents a date, false otherwise.
+     */
     private static boolean isDate(String value) {
         // TODO: Implement your date detection logic
         // For simplicity, assuming all strings are dates
         return true;
     }
 
+    /**
+     * Formats the given date string according to the specified date format pattern.
+     *
+     * @param dateStr The date string to be formatted.
+     * @return The formatted date string.
+     */
     private static String formatDate(String dateStr) {
         try {
             long timestamp = Long.parseLong(dateStr);
@@ -112,6 +141,12 @@ public class PdfExporter {
         }
     }
 
+    /**
+     * Checks if the given column name represents a date column.
+     *
+     * @param columnName The column name to be checked.
+     * @return True if the column represents a date column, false otherwise.
+     */
     private static boolean isDateColumn(String columnName) {
         // Specify the columns that should be formatted as dates
         return columnName.equals("_date") || columnName.equals("_update_date");
