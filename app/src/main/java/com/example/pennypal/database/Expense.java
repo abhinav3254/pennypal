@@ -2,22 +2,40 @@ package com.example.pennypal.database;
 
 import java.util.Date;
 
+/**
+ * The Expense class represents a financial expense with details such as title, amount, category, etc.
+ */
 public class Expense {
 
-    private Integer id;
-    private String title;
-    private Double amount;
-    private String category;
-    private String paymentMethod;
-    private String description;
-    private Date date;
-    private Date updateDate;
+    private Integer id;               // Unique identifier for the expense
+    private String title;             // Title or description of the expense
+    private Double amount;            // Amount spent for the expense
+    private String category;          // Category or type of the expense
+    private String paymentMethod;     // Payment method used for the expense
+    private String description;       // Additional description of the expense
+    private Date date;                // Date when the expense occurred
+    private Date updateDate;          // Date when the expense was last updated
 
-
+    /**
+     * Default constructor for the Expense class.
+     */
     public Expense() {
     }
 
-    public Expense(Integer id, String title, Double amount, String category, String paymentMethod, String description, Date date, Date updateDate) {
+    /**
+     * Parameterized constructor for the Expense class.
+     *
+     * @param id          Unique identifier for the expense.
+     * @param title       Title or description of the expense.
+     * @param amount      Amount spent for the expense.
+     * @param category    Category or type of the expense.
+     * @param paymentMethod Payment method used for the expense.
+     * @param description Additional description of the expense.
+     * @param date        Date when the expense occurred.
+     * @param updateDate  Date when the expense was last updated.
+     */
+    public Expense(Integer id, String title, Double amount, String category,
+                   String paymentMethod, String description, Date date, Date updateDate) {
         this.id = id;
         this.title = title;
         this.amount = amount;
@@ -28,6 +46,11 @@ public class Expense {
         this.updateDate = updateDate;
     }
 
+    /**
+     * Returns a string representation of the Expense object.
+     *
+     * @return String representation of the Expense object.
+     */
     @Override
     public String toString() {
         return "Expense{" +
@@ -41,6 +64,8 @@ public class Expense {
                 ", updateDate=" + updateDate +
                 '}';
     }
+
+    // Getters and setters for private fields
 
     public Integer getId() {
         return id;
