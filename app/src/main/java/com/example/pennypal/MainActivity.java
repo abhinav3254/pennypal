@@ -9,13 +9,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+
+import com.example.pennypal.database.DatabaseHelper;
+import com.example.pennypal.pdfexport.PdfExporter;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout drawerLayout;
     private BottomNavigationView bottomNavigationView;
 
+    // Define fragments
     HomeFragment homeFragment = new HomeFragment();
     AddFragment addFragment = new AddFragment();
     ProfileFragment profileFragment = new ProfileFragment();
@@ -25,13 +30,14 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Initialize DrawerLayout
         drawerLayout = findViewById(R.id.drawerLayout);
 
         // Set up the Toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        // Set the ActionBarDrawerToggle with the DrawerLayout
+        // Set up the ActionBarDrawerToggle with the DrawerLayout
         ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(
                 this,
                 drawerLayout,
@@ -42,10 +48,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
 
+        // Initialize BottomNavigationView
         bottomNavigationView = findViewById(R.id.btmNavView);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
-
-        // Your other setup code...
 
         // Set the default selected item
         bottomNavigationView.setSelectedItemId(R.id.home);
@@ -53,19 +58,34 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.action_bar_menu, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here
         if (item.getItemId() == R.id.action_settings) {
             // Handle the settings action
+            return true;
+        } else if (item.getItemId() == R.id.export_pdf) {
+            // Handle the export PDF action
+            exportDataAsPDF();
             return true;
         } else {
             // Add more cases for other menu items if needed
             return super.onOptionsItemSelected(item);
         }
+    }
+
+    // Method to export data as PDF
+    private void exportDataAsPDF() {
+        // Assuming you have an instance of DatabaseHelper
+        DatabaseHelper databaseHelper = new DatabaseHelper(this);
+
+        // Call the PdfExporter class to export data as PDF
+        PdfExporter.exportDataToPdf(this, databaseHelper);
     }
 
 
