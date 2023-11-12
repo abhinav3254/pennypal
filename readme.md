@@ -42,3 +42,52 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 - Mention anyone or any resources that helped you in developing the app.
 
+
+# Contribution Guidelines
+
+Thank you for considering contributing to the PennyPal project! We welcome contributions from the community.
+
+## How to Contribute
+
+1. Fork the repository to your GitHub account.
+2. Clone the forked repository to your local machine: `git clone https://github.com/yourusername/PennyPal.git`
+3. Create a new branch for your feature or bug fix: `git checkout -b feature-or-fix-branch`
+4. Make your changes and commit them with descriptive commit messages.
+5. Push your changes to your GitHub repository: `git push origin feature-or-fix-branch`
+6. Create a pull request from your branch to the main repository.
+
+## Code Style and Standards
+
+Please follow the coding style and standards used in the project. Ensure that your code adheres to the existing conventions.
+
+## Testing
+
+Before submitting a pull request, ensure that your changes have been tested thoroughly. Include relevant test cases if applicable.
+
+## Reporting Bugs
+
+If you find a bug, please open an issue describing the problem. Include details such as the steps to reproduce, the expected behavior, and the observed behavior.
+
+## Feature Requests
+
+For new features or enhancements, open an issue to discuss the proposed changes before working on them. This helps in maintaining a clear roadmap for the project.
+
+## Pull Request Guidelines
+
+- Ensure that your pull request has a clear title and description.
+- Reference relevant issues in your pull request.
+- Include screenshots or GIFs to demonstrate UI changes if applicable.
+- Keep pull requests focused on a single feature or bug fix.
+- Be responsive to feedback and be willing to make changes if necessary.
+
+## Code of Conduct
+
+This project follows the [Code of Conduct](CODE_OF_CONDUCT.md). By participating, you agree to uphold this code.
+
+## License
+
+By contributing to this project, you agree that your contributions will be licensed under the [MIT License](LICENSE.md).
+
+Thank you for your contribution!
+
+
