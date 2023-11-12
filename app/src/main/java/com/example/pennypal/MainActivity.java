@@ -15,6 +15,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.pennypal.database.DatabaseHelper;
+import com.example.pennypal.excel.ExcelExporter;
 import com.example.pennypal.pdfexport.PdfExporter;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -88,6 +89,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             // Handle the export PDF action
             exportDataAsPDF();
             return true;
+        } else if (item.getItemId() == R.id.export_excel) {
+            // Handle the export PDF action
+            exportDataAsExcel();
+            return true;
         } else if (item.getItemId() == R.id.delete_all) {
             // Handle the export PDF action
             truncateTable();
@@ -97,6 +102,17 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             return super.onOptionsItemSelected(item);
         }
     }
+
+
+    // Method to export data as Excel
+    private void exportDataAsExcel() {
+        // Assuming you have an instance of DatabaseHelper
+        DatabaseHelper databaseHelper = new DatabaseHelper(this);
+
+        // Call the ExcelExporter class to export data as Excel
+        ExcelExporter.exportDataToExcel(this, databaseHelper);
+    }
+
 
 
 
