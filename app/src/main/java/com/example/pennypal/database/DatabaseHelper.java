@@ -3,7 +3,6 @@ package com.example.pennypal.database;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -162,9 +161,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         List<Expense> expenses = new ArrayList<>();
         String selectQuery = "SELECT * FROM " + TABLE_NAME;
 
-        SQLiteDatabase db = this.getReadableDatabase(); // Change to getReadableDatabase
+        // Change to getReadableDatabase
 
-        try {
+        try (SQLiteDatabase db = this.getReadableDatabase()) {
             Cursor cursor = db.rawQuery(selectQuery, null);
 
             if (cursor.moveToFirst()) {
@@ -184,12 +183,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             }
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            // Close the cursor and database in a finally block
-            if (db != null) {
-                db.close();
-            }
         }
+        // Close the cursor and database in a finally block
 
         return expenses;
     }
