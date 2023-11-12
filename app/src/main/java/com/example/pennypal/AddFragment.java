@@ -1,19 +1,19 @@
 package com.example.pennypal;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import androidx.fragment.app.Fragment;
+
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
-import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.android.material.textview.MaterialTextView;
 
 import java.text.SimpleDateFormat;
@@ -22,65 +22,103 @@ import java.util.Locale;
 
 public class AddFragment extends Fragment {
 
+    private TextInputEditText titleEditText;
+    private TextInputEditText amountEditText;
+    private Spinner paymentMethodSpinner;
+    private Spinner categoryMethodSpinner;
+    private TextInputEditText descriptionEditText;
+    private MaterialTextView showDatePickerTextView;
+
+    private String customSelectedDate;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_add, container, false);
 
         final MaterialButton showDatePickerButton = view.findViewById(R.id.showDatePickerButton);
-        final MaterialTextView showDatePickerTextView = view.findViewById(R.id.showDatePickerTextView);
+        MaterialTextView showDatePickerTextView = view.findViewById(R.id.showDatePickerTextView);
 
-        showDatePickerButton.setOnClickListener(new View.OnClickListener() {
+        TextInputLayout titleLayout = view.findViewById(R.id.title);
+        titleEditText = titleLayout.findViewById(R.id.textInputEditText);
+
+        amountEditText = view.findViewById(R.id.amount);
+        paymentMethodSpinner = view.findViewById(R.id.paymentMethodSpinner);
+        categoryMethodSpinner = view.findViewById(R.id.categoryMethodSpinner);
+        descriptionEditText = view.findViewById(R.id.description);
+        showDatePickerTextView = view.findViewById(R.id.showDatePickerTextView);
+
+        MaterialButton saveButton = view.findViewById(R.id.saveButton);
+        saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                showDatePicker(showDatePickerTextView);
+            public void onClick(View v) {
+                onSaveButtonClick();
             }
         });
 
-        // For spinners
-        Spinner paymentMethodSpinner = view.findViewById(R.id.paymentMethodSpinner);
-        Spinner categoryMethodSpinner = view.findViewById(R.id.categoryMethodSpinner);
+        MaterialTextView finalShowDatePickerTextView = showDatePickerTextView;
+        showDatePickerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                customSelectedDate = showDatePicker(finalShowDatePickerTextView);
+            }
+        });
 
-        String[] items = {"Item 1", "Item 2", "Item 3", "Item 4", "Item 5"};
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, items);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        paymentMethodSpinner.setAdapter(adapter);
-        categoryMethodSpinner.setAdapter(adapter);
+        setupSpinners();
 
         return view;
     }
 
+    private void setupSpinners() {
+        String[] items = {"Item 1", "Item 2", "Item 3", "Item 4", "Item 5"};
 
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(requireActivity(), android.R.layout.simple_spinner_item, items);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
+        paymentMethodSpinner.setAdapter(adapter);
+        categoryMethodSpinner.setAdapter(adapter);
+    }
 
-    //    for date picker
-    private void showDatePicker(MaterialTextView materialTextView) {
+    private String showDatePicker(MaterialTextView materialTextView) {
         MaterialDatePicker<Long> builder = MaterialDatePicker.Builder.datePicker().build();
 
         builder.addOnPositiveButtonClickListener(new MaterialPickerOnPositiveButtonClickListener<Long>() {
             @Override
             public void onPositiveButtonClick(Long selection) {
-                // Convert the selected date in milliseconds to a formatted string if needed
-                String selectedDate = formatDate(selection);
-
-                // Set the selected date to the MaterialTextView
-                materialTextView.setText(selectedDate);
+                String formattedDate = formatDate(selection);
+                materialTextView.setText(formattedDate);
+                customSelectedDate = formattedDate;
             }
         });
 
-        builder.show(getActivity().getSupportFragmentManager(), "DATE_PICKER");
+        builder.show(requireActivity().getSupportFragmentManager(), "DATE_PICKER");
+
+        return customSelectedDate; // Return the selected date
     }
 
-    // Helper method to format the date if needed
     private String formatDate(Long dateInMillis) {
-        // You can use SimpleDateFormat or any other method to format the date
-        // For example:
-         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-         return sdf.format(new Date(dateInMillis));
-//        return String.valueOf(dateInMillis);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        return sdf.format(new Date(dateInMillis));
     }
 
+    private void onSaveButtonClick() {
+        String title = titleEditText.getText().toString();
+        String amount = amountEditText.getText().toString();
+        String paymentMethod = paymentMethodSpinner.getSelectedItem().toString();
+        String categoryMethod = categoryMethodSpinner.getSelectedItem().toString();
+        String description = descriptionEditText.getText().toString();
+//        String selectedDate = showDatePickerTextView.getText().toString();
+        String selectedDate = customSelectedDate;
+
+        logValues(title, amount, paymentMethod, categoryMethod, description, selectedDate);
+
+    }
+
+    private void logValues(String title, String amount, String paymentMethod, String categoryMethod, String description, String selectedDate) {
+        String logMessage = String.format(
+                "Title: %s\nAmount: %s\nPayment Method: %s\nCategory: %s\nDescription: %s\nDate: %s",
+                title, amount, paymentMethod, categoryMethod, description, selectedDate);
+
+        // Log the values
+        System.out.println(logMessage);
+    }
 }

@@ -41,6 +41,7 @@
                     android:hint="Title">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/textInputEditText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:drawableLeft="@drawable/title"
@@ -56,6 +57,7 @@
                     android:hint="Amount">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/amount"
                         android:drawableLeft="@drawable/currency"
                         android:drawablePadding="10dp"
                         android:layout_width="match_parent"
@@ -100,6 +102,7 @@
                     android:layout_margin="5dp">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/description"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textMultiLine"
@@ -118,12 +121,16 @@
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/showDatePickerTextView"
                         android:layout_width="0dp"
-                        android:layout_height="50dp"
-                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:gravity="center"
                         android:layout_margin="5dp"
-                        android:text="12/11/2023" />
+                        android:layout_weight="1"
+                        android:text="12/11/2023"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"/>
+
 
 
                     <com.google.android.material.button.MaterialButton
@@ -138,6 +145,7 @@
                 </LinearLayout>
 
                 <com.google.android.material.button.MaterialButton
+                    android:id="@+id/saveButton"
                     android:layout_width="100dp"
                     android:layout_height="60dp"
                     android:text="save"
