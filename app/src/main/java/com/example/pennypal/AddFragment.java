@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.datepicker.MaterialDatePicker;
@@ -37,21 +38,21 @@ public class AddFragment extends Fragment {
             }
         });
 
-        // For drop-downs
-        MaterialAutoCompleteTextView paymentMethod = view.findViewById(R.id.paymentMethod);
-        MaterialAutoCompleteTextView categoryMethod = view.findViewById(R.id.categoryMethod);
+        // For spinners
+        Spinner paymentMethodSpinner = view.findViewById(R.id.paymentMethodSpinner);
+        Spinner categoryMethodSpinner = view.findViewById(R.id.categoryMethodSpinner);
 
         String[] items = {"Item 1", "Item 2", "Item 3", "Item 4", "Item 5"};
 
-        // Use the fragment's context (getActivity()) instead of this
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_dropdown_item_1line, items);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, items);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        // Apply the adapter to the MaterialAutoCompleteTextView
-        paymentMethod.setAdapter(adapter);
-        categoryMethod.setAdapter(adapter);
+        paymentMethodSpinner.setAdapter(adapter);
+        categoryMethodSpinner.setAdapter(adapter);
 
         return view;
     }
+
 
 
 
