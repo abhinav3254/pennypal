@@ -145,4 +145,37 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         data = newData;
         notifyDataSetChanged();
     }
+
+    /**
+     * Get the expense item at the specified position.
+     *
+     * @param position The position of the item in the data set.
+     * @return The Expense object at the specified position.
+     */
+    public Expense getItem(int position) {
+        return data.get(position);
+    }
+
+    /**
+     * Remove an item at the given position from the data set and refresh the RecyclerView.
+     *
+     * @param position The position of the item to be removed.
+     */
+    public void removeItem(int position) {
+        if (position >= 0 && position < data.size()) {
+            data.remove(position);
+            notifyItemRemoved(position);
+        }
+    }
+
+    /**
+     * Add a new expense item to the adapter and refresh the RecyclerView.
+     *
+     * @param newExpense The new Expense object to be added.
+     */
+    public void addItem(Expense newExpense) {
+        data.add(newExpense);
+        notifyItemInserted(data.size() - 1);
+    }
+
 }
