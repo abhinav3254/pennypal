@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     // Define fragments
     HomeFragment homeFragment = new HomeFragment();
     AddFragment addFragment = new AddFragment();
-    ProfileFragment profileFragment = new ProfileFragment();
+    AnalyticsFragment analyticsFragment = new AnalyticsFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -172,8 +172,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         } else if (item.getItemId() == R.id.add) {
             getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, addFragment).commit();
             return true;
-        } else if (item.getItemId() == R.id.profile) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, profileFragment).commit();
+        } else if (item.getItemId() == R.id.analytics) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, analyticsFragment).commit();
             return true;
         } else {
             return false;
