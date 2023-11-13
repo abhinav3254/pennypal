@@ -106,6 +106,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return newRowId;
     }
 
+
     /**
      * Updates an existing expense record in the database.
      *
@@ -312,6 +313,48 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         return searchResults;
     }
+
+
+
+    /**
+     * Retrieves an expense from the database based on its ID.
+     *
+     * @param expenseId The ID of the expense to retrieve.
+     * @return The Expense object with the specified ID, or null if not found.
+     */
+    public Expense getExpenseById(long expenseId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(
+                TABLE_NAME,
+                null,
+                COLUMN_ID + " = ?",
+                new String[]{String.valueOf(expenseId)},
+                null,
+                null,
+                null
+        );
+
+        Expense expense = null;
+        try {
+            if (cursor.moveToFirst()) {
+                expense = new Expense();
+                expense.setId(cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_ID)));
+                expense.setTitle(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TITLE)));
+                expense.setAmount(cursor.getDouble(cursor.getColumnIndexOrThrow(COLUMN_AMOUNT)));
+                expense.setCategory(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_CATEGORY)));
+                expense.setPaymentMethod(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_PAYMENT_METHOD)));
+                expense.setDescription(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_DESCRIPTION)));
+                expense.setDate(new Date(cursor.getLong(cursor.getColumnIndexOrThrow(COLUMN_DATE))));
+                expense.setUpdateDate(new Date(cursor.getLong(cursor.getColumnIndexOrThrow(COLUMN_UPDATE_DATE))));
+            }
+        } finally {
+            cursor.close();
+            db.close();
+        }
+
+        return expense;
+    }
+
 
 
 

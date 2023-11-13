@@ -125,4 +125,15 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
             notifyItemRemoved(position);
         }
     }
+
+    /**
+     * Add a new expense item to the adapter and refresh the RecyclerView.
+     *
+     * @param newExpense The new Expense object to be added.
+     */
+    public void addItem(Expense newExpense) {
+        data.add(newExpense);
+        notifyItemInserted(data.size() - 1);
+    }
+
 }
