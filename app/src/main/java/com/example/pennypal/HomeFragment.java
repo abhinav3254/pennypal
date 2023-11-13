@@ -172,12 +172,22 @@ public class HomeFragment extends Fragment {
         }).attachToRecyclerView(recyclerView);
     }
 
+    /**
+     * Deletes an expense record from the database.
+     *
+     * @param expense The Expense object representing the record to be deleted.
+     */
     private void deleteExpenseFromDatabase(Expense expense) {
         // Implement your database deletion logic here using your DatabaseHelper
         // For example, assuming you have a deleteExpense method in your DatabaseHelper:
         databaseHelper.deleteExpense(expense.getId());
     }
 
+    /**
+     * Restores a deleted expense record in the database.
+     *
+     * @param expense The Expense object representing the record to be restored.
+     */
     private void restoreExpense(Expense expense) {
         // Add the expense back to the database
         long restoredItemId = databaseHelper.insertExpense(expense);
@@ -196,13 +206,22 @@ public class HomeFragment extends Fragment {
             // Handle the case where the item couldn't be restored
             // This could include notifying the user or logging an error
             Log.e("RestoreExpense", "Failed to restore expense: " + expense.getId());
+
+            // Show a Snackbar indicating the failure to restore the expense
             showSnackbar("Failed to restore expense", rootView);
         }
     }
 
+    /**
+     * Shows a Snackbar with a specified message.
+     *
+     * @param message The message to be displayed in the Snackbar.
+     * @param view    The View to find a parent from to locate the Snackbar within the view hierarchy.
+     */
     private void showSnackbar(String message, View view) {
         Snackbar.make(view, message, Snackbar.LENGTH_SHORT).show();
     }
+
 
 
 }
