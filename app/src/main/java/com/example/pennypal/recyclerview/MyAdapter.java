@@ -59,10 +59,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         // Set the data to the ViewHolder
         holder.textViewTitle.setText(expense.getTitle());
         holder.textViewAmount.setText(String.valueOf(expense.getAmount()));
-        holder.textViewCategory.setText(expense.getCategory());
+//        holder.textViewCategory.setText(expense.getCategory());
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy", Locale.getDefault());
         String formattedDate = dateFormat.format(expense.getDate());
-        holder.textViewDate.setText(formattedDate);
+//        holder.textViewDate.setText(formattedDate);
     }
 
     /**
@@ -93,8 +93,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
             super(itemView);
             textViewTitle = itemView.findViewById(R.id.textViewTitle);
             textViewAmount = itemView.findViewById(R.id.textViewAmount);
-            textViewCategory = itemView.findViewById(R.id.textViewCategory);
-            textViewDate = itemView.findViewById(R.id.textViewDate);
+//            textViewCategory = itemView.findViewById(R.id.textViewCategory);
+//            textViewDate = itemView.findViewById(R.id.textViewDate);
 
             // Set click listener for the item view
             itemView.setOnClickListener(this);
