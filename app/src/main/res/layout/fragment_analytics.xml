@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ProfileFragment">
+    tools:context=".AnalyticsFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -20,49 +20,37 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:layout_height="match_parent">
+
 
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:layout_margin="20dp"
-                    app:cardElevation="5dp">
+                    android:layout_height="400dp"
+                    app:cardElevation="10dp"
+                    android:layout_margin="10dp"
+                    >
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:orientation="horizontal">
+                        android:orientation="vertical"
+                        android:padding="10dp"
+                        >
 
-                        <ImageView
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:src="@drawable/krati"
-                            android:layout_margin="10dp"
-                            android:scaleType="centerCrop"
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="space reserved for graph"
+                            android:textSize="40dp"
                             />
 
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="2"
-                            android:orientation="vertical"
-                            android:layout_margin="10dp"
-                            >
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Kushi Jha"
-                                android:textSize="40dp"
-                                android:layout_margin="10dp"
-                                />
-
-                        </LinearLayout>
-
                     </LinearLayout>
+
                 </com.google.android.material.card.MaterialCardView>
 
             </LinearLayout>
+
+
         </ScrollView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
