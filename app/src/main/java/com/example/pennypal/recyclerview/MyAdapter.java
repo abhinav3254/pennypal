@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.pennypal.R;
 import com.example.pennypal.database.Expense;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -126,12 +125,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
             showBottomSheetDialog();
         }
 
-
         /**
          * Shows a bottom sheet dialog with options such as copy, share, download, and delete.
          */
         private void showBottomSheetDialog() {
-
             // Create a new BottomSheetDialog
             final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(itemView.getContext());
 
@@ -147,7 +144,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
             // Show the bottom sheet dialog
             bottomSheetDialog.show();
         }
-
     }
 
     /**
@@ -191,5 +187,4 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         data.add(newExpense);
         notifyItemInserted(data.size() - 1);
     }
-
 }
