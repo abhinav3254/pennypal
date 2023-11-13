@@ -9,9 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.pennypal.R;
 import com.example.pennypal.database.Expense;
 
-import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * The MyAdapter class is a RecyclerView adapter responsible for managing and displaying Expense data.
@@ -56,10 +54,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         holder.textViewTitle.setText(expense.getTitle());
         holder.textViewAmount.setText(String.valueOf(expense.getAmount()));
         holder.textViewCategory.setText(expense.getCategory());
-//        holder.textViewDate.setText(expense.getDate().toString());
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy", Locale.getDefault());
-        String formattedDate = dateFormat.format(expense.getDate());
-        holder.textViewDate.setText(formattedDate);
+        holder.textViewDate.setText(expense.getDate().toString());
     }
 
     /**
