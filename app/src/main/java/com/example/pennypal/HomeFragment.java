@@ -120,10 +120,16 @@ public class HomeFragment extends Fragment {
     }
 
 
+    /**
+     * Sets up swipe gesture handling for RecyclerView items.
+     * When an item is swiped to the right, it is deleted from the database and the adapter.
+     * A Snackbar with an undo option is shown, allowing the user to undo the deletion.
+     */
     private void swipeGesture() {
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                // Not used for swipe gesture
                 return false;
             }
 
@@ -171,6 +177,7 @@ public class HomeFragment extends Fragment {
             }
         }).attachToRecyclerView(recyclerView);
     }
+
 
     /**
      * Deletes an expense record from the database.
