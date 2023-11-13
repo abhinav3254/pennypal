@@ -141,8 +141,21 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
             LinearLayout download = bottomSheetDialog.findViewById(R.id.download);
             LinearLayout delete = bottomSheetDialog.findViewById(R.id.delete);
 
-            TextView downloadText = bottomSheetDialog.findViewById(R.id.downloadText);
+            TextView downloadText = bottomSheetDialog.findViewById(R.id.titleText);
+            TextView amount = bottomSheetDialog.findViewById(R.id.amount);
+            TextView category = bottomSheetDialog.findViewById(R.id.category);
+            TextView paymentMethod = bottomSheetDialog.findViewById(R.id.paymentMethod);
+            TextView date = bottomSheetDialog.findViewById(R.id.date);
+            TextView description = bottomSheetDialog.findViewById(R.id.description);
+
+
             downloadText.setText(expense.getTitle());
+            amount.setText(expense.getAmount().toString());
+            category.setText(expense.getCategory());
+            paymentMethod.setText(expense.getPaymentMethod());
+            date.setText(expense.getDate().toString());
+            description.setText(expense.getDescription());
+
 
             // Show the bottom sheet dialog
             bottomSheetDialog.show();
