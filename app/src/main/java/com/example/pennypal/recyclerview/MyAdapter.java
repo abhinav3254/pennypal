@@ -122,13 +122,13 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
          */
         private void openBottomSheet(Expense expense) {
             // Check if the context is an instance of FragmentActivity
-            showBottomSheetDialog();
+            showBottomSheetDialog(expense);
         }
 
         /**
          * Shows a bottom sheet dialog with options such as copy, share, download, and delete.
          */
-        private void showBottomSheetDialog() {
+        private void showBottomSheetDialog(Expense expense) {
             // Create a new BottomSheetDialog
             final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(itemView.getContext());
 
@@ -140,6 +140,9 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
             LinearLayout share = bottomSheetDialog.findViewById(R.id.shareLinearLayout);
             LinearLayout download = bottomSheetDialog.findViewById(R.id.download);
             LinearLayout delete = bottomSheetDialog.findViewById(R.id.delete);
+
+            TextView downloadText = bottomSheetDialog.findViewById(R.id.downloadText);
+            downloadText.setText(expense.getTitle());
 
             // Show the bottom sheet dialog
             bottomSheetDialog.show();
