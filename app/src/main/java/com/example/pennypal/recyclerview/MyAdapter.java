@@ -53,8 +53,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         // Set the data to the ViewHolder
         holder.textViewTitle.setText(expense.getTitle());
         holder.textViewAmount.setText(String.valueOf(expense.getAmount()));
-        holder.textViewCategory.setText(expense.getCategory());
-        holder.textViewDate.setText(expense.getDate().toString());
+//        holder.textViewCategory.setText(expense.getCategory());
+//        holder.textViewDate.setText(expense.getDate().toString());
     }
 
     /**
@@ -85,8 +85,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
             super(itemView);
             textViewTitle = itemView.findViewById(R.id.textViewTitle);
             textViewAmount = itemView.findViewById(R.id.textViewAmount);
-            textViewCategory = itemView.findViewById(R.id.textViewCategory);
-            textViewDate = itemView.findViewById(R.id.textViewDate);
+//            textViewCategory = itemView.findViewById(R.id.textViewCategory);
+//            textViewDate = itemView.findViewById(R.id.textViewDate);
         }
     }
 
