@@ -15,11 +15,11 @@
         <ImageView
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:src="@drawable/currency"
+            android:src="@drawable/title"
             android:layout_margin="8dp"/>
 
         <TextView
-            android:id="@+id/downloadText"
+            android:id="@+id/titleText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Download File"
@@ -38,13 +38,14 @@
         <ImageView
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:src="@drawable/krati"
+            android:src="@drawable/currency"
             android:layout_margin="8dp"/>
 
         <TextView
+            android:id="@+id/amount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Share"
+            android:text="amount"
             android:layout_gravity="center_vertical"
             android:padding="8dp"/>
 
@@ -61,13 +62,14 @@
         <ImageView
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:src="@drawable/add"
+            android:src="@drawable/krati"
             android:layout_margin="8dp"/>
 
         <TextView
+            android:id="@+id/category"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Upload To Google Drive"
+            android:text="Category"
             android:layout_gravity="center_vertical"
             android:padding="8dp"/>
 
@@ -88,9 +90,10 @@
             android:layout_margin="8dp"/>
 
         <TextView
+            android:id="@+id/paymentMethod"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Copy Link"
+            android:text="Payment Method"
             android:layout_gravity="center_vertical"
             android:padding="8dp"/>
     </LinearLayout>
@@ -110,14 +113,38 @@
             android:layout_margin="8dp"/>
 
         <TextView
+            android:id="@+id/date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Delete File Selection"
+            android:text="date"
             android:layout_gravity="center_vertical"
             android:padding="8dp"/>
     </LinearLayout>
 
     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/descLayout"
+        android:background="?android:attr/selectableItemBackground"
+        android:padding="8dp">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/search"
+            android:layout_margin="8dp"/>
+
+        <TextView
+            android:id="@+id/description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Description"
+            android:layout_gravity="center_vertical"
+            android:padding="8dp"/>
+    </LinearLayout>
+  
+  <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -141,5 +168,8 @@
             />
 
     </LinearLayout>
+<LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"/>
 
 </LinearLayout>
