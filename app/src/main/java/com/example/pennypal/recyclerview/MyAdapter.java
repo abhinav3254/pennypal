@@ -3,11 +3,16 @@ package com.example.pennypal.recyclerview;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pennypal.R;
 import com.example.pennypal.database.Expense;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -18,7 +23,7 @@ import java.util.Locale;
  */
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
-    private List<Expense> data; // Replace 'String' with the type of your data
+    private static List<Expense> data; // Replace 'String' with the type of your data
 
     /**
      * Constructor for MyAdapter.
@@ -56,7 +61,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         holder.textViewTitle.setText(expense.getTitle());
         holder.textViewAmount.setText(String.valueOf(expense.getAmount()));
         holder.textViewCategory.setText(expense.getCategory());
-//        holder.textViewDate.setText(expense.getDate().toString());
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy", Locale.getDefault());
         String formattedDate = dateFormat.format(expense.getDate());
         holder.textViewDate.setText(formattedDate);
@@ -75,7 +79,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     /**
      * The ViewHolder class represents each item's view in the RecyclerView.
      */
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public TextView textViewTitle;
         public TextView textViewAmount;
         public TextView textViewCategory;
@@ -92,7 +96,44 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
             textViewAmount = itemView.findViewById(R.id.textViewAmount);
             textViewCategory = itemView.findViewById(R.id.textViewCategory);
             textViewDate = itemView.findViewById(R.id.textViewDate);
+
+            // Set click listener for the item view
+            itemView.setOnClickListener(this);
         }
+
+        @Override
+        public void onClick(View view) {
+            // Get the position of the clicked item
+            int position = getAdapterPosition();
+
+            // Ensure the position is valid
+            if (position != RecyclerView.NO_POSITION) {
+                // Retrieve the clicked Expense object
+                Expense clickedExpense = data.get(position);
+
+                // Open the bottom sheet with the clicked Expense data
+                openBottomSheet(clickedExpense);
+            }
+        }
+
+        private void openBottomSheet(Expense expense) {
+            // Check if the context is an instance of FragmentActivity
+            showBottomSheetDialog();
+        }
+
+        private void showBottomSheetDialog() {
+
+            final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(itemView.getContext());
+            bottomSheetDialog.setContentView(R.layout.fragment_bottom_sheet);
+
+            LinearLayout copy = bottomSheetDialog.findViewById(R.id.copyLinearLayout);
+            LinearLayout share = bottomSheetDialog.findViewById(R.id.shareLinearLayout);
+            LinearLayout download = bottomSheetDialog.findViewById(R.id.download);
+            LinearLayout delete = bottomSheetDialog.findViewById(R.id.delete);
+
+            bottomSheetDialog.show();
+        }
+
     }
 
     /**
