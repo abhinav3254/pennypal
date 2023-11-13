@@ -40,7 +40,8 @@ dependencies {
     implementation("org.apache.poi:poi-ooxml:5.2.3")
 
 //    for pie char
-    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
+    implementation("com.github.blackfizz:eazegraph:1.2.5l@aar")
+    implementation("com.nineoldandroids:library:2.4.0")
 
 
     implementation("androidx.appcompat:appcompat:1.6.1")
