@@ -1,5 +1,6 @@
 package com.example.pennypal;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,8 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.pennypal.database.DatabaseHelper;
 import com.example.pennypal.database.Expense;
@@ -176,6 +179,39 @@ public class AddFragment extends Fragment {
         long value = databaseHelper.insertExpense(expense);
 
         // Show a toast message based on the insertion result
-        Toast.makeText(getContext(), (value > 0) ? "Added" : "Something went wrong", Toast.LENGTH_SHORT).show();
+        boolean isSuccess = value > 0;
+        Toast.makeText(getContext(), isSuccess ? "Added" : "Something went wrong", Toast.LENGTH_SHORT).show();
+
+        // Reset input fields and refresh the current fragment only if the insertion was successful
+        resetInputFields(isSuccess);
+
     }
+
+    /**
+     * Reset input fields and refresh the current fragment.
+     *
+     * @param success Indicates whether the insertion was successful or not.
+     */
+    private void resetInputFields(boolean success) {
+        // Clear input fields
+        titleEditText.getText().clear();
+        amountEditText.getText().clear();
+        paymentMethodSpinner.setSelection(0);
+        categoryMethodSpinner.setSelection(0);
+        descriptionEditText.getText().clear();
+        showDatePickerTextView.setText("");
+
+        // Reset customSelectedDate to null
+        customSelectedDate = null;
+
+        // Refresh the fragment only if the insertion was successful
+        if (success) {
+            FragmentTransaction ft = requireFragmentManager().beginTransaction();
+            ft.detach(this).attach(this).commit();
+        }
+    }
+
+
+
+
 }
