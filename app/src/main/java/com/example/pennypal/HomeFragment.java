@@ -9,7 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -37,6 +39,7 @@ public class HomeFragment extends Fragment {
         setupRecyclerView();
         retrieveExpenses();
         setupSearchEditText();
+        swipeGesture();
         return view;
     }
 
@@ -109,4 +112,35 @@ public class HomeFragment extends Fragment {
         // Update the adapter with the filtered data
         adapter.updateData(filteredExpenses);
     }
+
+
+    private void swipeGesture() {
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                int position = viewHolder.getAdapterPosition();
+
+                // Get the swiped item from your data set
+                Expense swipedExpense = adapter.getItem(position);
+
+                // Delete the item from the database
+                deleteExpenseFromDatabase(swipedExpense);
+
+                // Remove the item from the adapter
+                adapter.removeItem(position);
+            }
+        }).attachToRecyclerView(recyclerView);
+    }
+
+    private void deleteExpenseFromDatabase(Expense expense) {
+        // Implement your database deletion logic here using your DatabaseHelper
+        // For example, assuming you have a deleteExpense method in your DatabaseHelper:
+        databaseHelper.deleteExpense(expense.getId());
+    }
+
 }

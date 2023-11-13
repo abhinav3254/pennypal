@@ -9,7 +9,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.pennypal.R;
 import com.example.pennypal.database.Expense;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * The MyAdapter class is a RecyclerView adapter responsible for managing and displaying Expense data.
@@ -54,7 +56,9 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         holder.textViewTitle.setText(expense.getTitle());
         holder.textViewAmount.setText(String.valueOf(expense.getAmount()));
         holder.textViewCategory.setText(expense.getCategory());
-        holder.textViewDate.setText(expense.getDate().toString());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy", Locale.getDefault());
+        String formattedDate = dateFormat.format(expense.getDate());
+        holder.textViewDate.setText(formattedDate);
     }
 
     /**
@@ -98,5 +102,27 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     public void updateData(List<Expense> newData) {
         data = newData;
         notifyDataSetChanged();
+    }
+
+    /**
+     * Get the expense item at the specified position.
+     *
+     * @param position The position of the item in the data set.
+     * @return The Expense object at the specified position.
+     */
+    public Expense getItem(int position) {
+        return data.get(position);
+    }
+
+    /**
+     * Remove an item at the given position from the data set and refresh the RecyclerView.
+     *
+     * @param position The position of the item to be removed.
+     */
+    public void removeItem(int position) {
+        if (position >= 0 && position < data.size()) {
+            data.remove(position);
+            notifyItemRemoved(position);
+        }
     }
 }
