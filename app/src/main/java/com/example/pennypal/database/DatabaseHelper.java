@@ -264,4 +264,55 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
+    /**
+     * Searches for expenses in the database based on the given search query.
+     *
+     * @param query The search query to match against title, category, payment method, or description.
+     * @return A list of Expense objects matching the search query.
+     */
+    public List<Expense> searchExpenses(String query) {
+        List<Expense> searchResults = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        // Define the columns you want to search in
+        String[] columnsToSearch = {COLUMN_TITLE, COLUMN_CATEGORY, COLUMN_PAYMENT_METHOD, COLUMN_DESCRIPTION};
+
+        // Build the selection clause with a LIKE query
+        String selection = "";
+        for (int i = 0; i < columnsToSearch.length; i++) {
+            selection += columnsToSearch[i] + " LIKE '%" + query + "%'";
+            if (i < columnsToSearch.length - 1) {
+                selection += " OR ";
+            }
+        }
+
+        // Execute the query
+        Cursor cursor = db.query(TABLE_NAME, null, selection, null, null, null, null);
+
+        try {
+            if (cursor.moveToFirst()) {
+                do {
+                    Expense expense = new Expense();
+                    expense.setId(cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_ID)));
+                    expense.setTitle(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TITLE)));
+                    expense.setAmount(cursor.getDouble(cursor.getColumnIndexOrThrow(COLUMN_AMOUNT)));
+                    expense.setCategory(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_CATEGORY)));
+                    expense.setPaymentMethod(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_PAYMENT_METHOD)));
+                    expense.setDescription(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_DESCRIPTION)));
+                    expense.setDate(new Date(cursor.getLong(cursor.getColumnIndexOrThrow(COLUMN_DATE))));
+                    expense.setUpdateDate(new Date(cursor.getLong(cursor.getColumnIndexOrThrow(COLUMN_UPDATE_DATE))));
+
+                    searchResults.add(expense);
+                } while (cursor.moveToNext());
+            }
+        } finally {
+            cursor.close();
+            db.close();
+        }
+
+        return searchResults;
+    }
+
+
+
 }
