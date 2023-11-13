@@ -93,8 +93,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
             super(itemView);
             textViewTitle = itemView.findViewById(R.id.textViewTitle);
             textViewAmount = itemView.findViewById(R.id.textViewAmount);
-            textViewCategory = itemView.findViewById(R.id.textViewCategory);
-            textViewDate = itemView.findViewById(R.id.textViewDate);
+//            textViewCategory = itemView.findViewById(R.id.textViewCategory);
+//            textViewDate = itemView.findViewById(R.id.textViewDate);
 
             // Set click listener for the item view
             itemView.setOnClickListener(this);
