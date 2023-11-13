@@ -222,6 +222,4 @@ public class HomeFragment extends Fragment {
         Snackbar.make(view, message, Snackbar.LENGTH_SHORT).show();
     }
 
-
-
 }
