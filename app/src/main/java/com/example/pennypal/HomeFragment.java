@@ -114,6 +114,19 @@ public class HomeFragment extends Fragment {
     }
 
 
+//    private void swipeFeature() {
+//        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
+//            @Override
+//            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+//                return false;
+//            }
+//
+//            @Override
+//            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+//            }
+//        }).attachToRecyclerView(recyclerView);
+//    }
+
     private void swipeFeature() {
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
             @Override
@@ -123,7 +136,24 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                int position = viewHolder.getAdapterPosition();
+
+                // Get the swiped item from your data set
+                Expense swipedExpense = adapter.getItem(position);
+
+                // Delete the item from the database
+                deleteExpenseFromDatabase(swipedExpense);
+
+                // Remove the item from the adapter
+                adapter.removeItem(position);
             }
         }).attachToRecyclerView(recyclerView);
     }
+
+    private void deleteExpenseFromDatabase(Expense expense) {
+        // Implement your database deletion logic here using your DatabaseHelper
+        // For example, assuming you have a deleteExpense method in your DatabaseHelper:
+        databaseHelper.deleteExpense(expense.getId());
+    }
+
 }
