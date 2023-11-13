@@ -9,7 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -37,6 +39,7 @@ public class HomeFragment extends Fragment {
         setupRecyclerView();
         retrieveExpenses();
         setupSearchEditText();
+        swipeFeature();
         return view;
     }
 
@@ -108,5 +111,19 @@ public class HomeFragment extends Fragment {
 
         // Update the adapter with the filtered data
         adapter.updateData(filteredExpenses);
+    }
+
+
+    private void swipeFeature() {
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+            }
+        }).attachToRecyclerView(recyclerView);
     }
 }
