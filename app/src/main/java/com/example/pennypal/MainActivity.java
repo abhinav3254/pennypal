@@ -182,11 +182,35 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     @Override
     public void onBackPressed() {
-        // Close the drawer on back press if it's open
+        // Check if the navigation drawer is open
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            // If the drawer is open, close it
             drawerLayout.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            // If the drawer is not open, show the exit confirmation dialog
+            showExitConfirmationDialog();
         }
     }
+
+    private void showExitConfirmationDialog() {
+        new AlertDialog.Builder(this)
+                .setMessage("Are you sure you want to exit?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // User clicked Yes, exit the app
+                        finish();
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // User clicked No, dismiss the dialog
+                        dialog.dismiss();
+                    }
+                })
+                .show();
+    }
+
+
 }
