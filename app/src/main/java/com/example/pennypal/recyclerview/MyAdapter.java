@@ -116,21 +116,35 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
             }
         }
 
+        /**
+         * Opens a bottom sheet with options for the given expense.
+         *
+         * @param expense The expense for which the bottom sheet is opened.
+         */
         private void openBottomSheet(Expense expense) {
             // Check if the context is an instance of FragmentActivity
             showBottomSheetDialog();
         }
 
+
+        /**
+         * Shows a bottom sheet dialog with options such as copy, share, download, and delete.
+         */
         private void showBottomSheetDialog() {
 
+            // Create a new BottomSheetDialog
             final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(itemView.getContext());
+
+            // Set the content view to the custom layout for the bottom sheet
             bottomSheetDialog.setContentView(R.layout.fragment_bottom_sheet);
 
+            // Initialize views from the bottom sheet layout
             LinearLayout copy = bottomSheetDialog.findViewById(R.id.copyLinearLayout);
             LinearLayout share = bottomSheetDialog.findViewById(R.id.shareLinearLayout);
             LinearLayout download = bottomSheetDialog.findViewById(R.id.download);
             LinearLayout delete = bottomSheetDialog.findViewById(R.id.delete);
 
+            // Show the bottom sheet dialog
             bottomSheetDialog.show();
         }
 
