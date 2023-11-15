@@ -232,11 +232,22 @@ public class HomeFragment extends Fragment {
         Snackbar.make(view, message, Snackbar.LENGTH_SHORT).show();
     }
 
+
+    /**
+     * This method manages the visibility of the background image based on the presence of items in the expense list.
+     *
+     * @param view The root view that contains the background image view.
+     */
     private void hideBackgroundImage(View view) {
+        // Find the LinearLayout containing the background image within the provided view
         LinearLayout linearLayout = view.findViewById(R.id.emptyImageView);
+
+        // Check if the expense list is empty
         if (expenseList.isEmpty()) {
+            // If the list is empty, set the background image layout to be visible
             linearLayout.setVisibility(View.VISIBLE);
         } else {
+            // If the list is not empty, set the background image layout to be invisible
             linearLayout.setVisibility(View.INVISIBLE);
         }
     }
