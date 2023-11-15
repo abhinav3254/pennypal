@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -45,6 +47,7 @@ public class HomeFragment extends Fragment {
         retrieveExpenses();
         setupSearchEditText();
         swipeGesture();
+        hideBackgroundImage(view);
         rootView = view;
         return view;
     }
@@ -227,6 +230,15 @@ public class HomeFragment extends Fragment {
      */
     private void showSnackbar(String message, View view) {
         Snackbar.make(view, message, Snackbar.LENGTH_SHORT).show();
+    }
+
+    private void hideBackgroundImage(View view) {
+        LinearLayout linearLayout = view.findViewById(R.id.emptyImageView);
+        if (expenseList.isEmpty()) {
+            linearLayout.setVisibility(View.VISIBLE);
+        } else {
+            linearLayout.setVisibility(View.INVISIBLE);
+        }
     }
 
 }

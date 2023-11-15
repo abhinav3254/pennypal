@@ -33,6 +33,39 @@
         </com.google.android.material.textfield.TextInputLayout>
 
 
+        <LinearLayout
+            android:id="@+id/emptyImageView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/searchInputLayout"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:padding="20dp"
+            android:orientation="vertical"
+            android:gravity="center_vertical"
+            >
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/empty"
+                android:visibility="visible"
+                android:gravity="center"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:text="No Data Found,\nTry to add some data"
+                android:gravity="center"
+                />
+
+        </LinearLayout>
+
+
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
