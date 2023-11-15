@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -20,6 +21,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.pennypal.database.DatabaseHelper;
 import com.example.pennypal.database.Expense;
 import com.example.pennypal.recyclerview.MyAdapter;
+import com.example.pennypal.utils.MyDialogFragment;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
@@ -27,7 +30,7 @@ import java.util.List;
 /**
  * The HomeFragment class represents the fragment responsible for displaying a list of expenses.
  */
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements MyDialogFragment.OnExpenseSavedListener {
 
     private RecyclerView recyclerView;
     private MyAdapter adapter;
@@ -48,8 +51,31 @@ public class HomeFragment extends Fragment {
         setupSearchEditText();
         swipeGesture();
         hideBackgroundImage(view);
+
+        // Call the method to set up FloatingActionButton
+        setupFloatingActionButton(view);
+        
         rootView = view;
         return view;
+    }
+
+    // Method to set up FloatingActionButton
+    private void setupFloatingActionButton(View view) {
+        FloatingActionButton floatingActionButton = view.findViewById(R.id.floatingAddBtn);
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MyDialogFragment dialogFragment = MyDialogFragment.newInstance();
+                dialogFragment.setOnExpenseSavedListener(HomeFragment.this); // Set listener
+                dialogFragment.show(getParentFragmentManager(), "MyDialog");
+            }
+        });
+    }
+
+    // Implement the OnExpenseSavedListener interface
+    @Override
+    public void onExpenseSaved() {
+        refresh(); // Refresh the HomeFragment
     }
 
     /**
@@ -233,11 +259,6 @@ public class HomeFragment extends Fragment {
     }
 
 
-    /**
-     * This method manages the visibility of the background image based on the presence of items in the expense list.
-     *
-     * @param view The root view that contains the background image view.
-     */
     private void hideBackgroundImage(View view) {
         // Find the LinearLayout containing the background image within the provided view
         LinearLayout linearLayout = view.findViewById(R.id.emptyImageView);
@@ -250,6 +271,17 @@ public class HomeFragment extends Fragment {
             // If the list is not empty, set the background image layout to be invisible
             linearLayout.setVisibility(View.INVISIBLE);
         }
+    }
+
+
+    /**
+     * Refreshes the HomeFragment by updating the list of expenses displayed.
+     * Use this method to perform actions necessary to update the HomeFragment, such as retrieving
+     * expenses again and updating the RecyclerView.
+     */
+    public void refresh() {
+        // Perform actions to refresh the HomeFragment
+        retrieveExpenses(); // Retrieve expenses again and update the RecyclerView
     }
 
 }
