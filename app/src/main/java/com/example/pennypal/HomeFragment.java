@@ -259,18 +259,16 @@ public class HomeFragment extends Fragment implements MyDialogFragment.OnExpense
     }
 
 
-    /**
-     * Hides or shows the background image based on the presence of expenses in the list.
-     * This method determines whether the background image (empty state) should be visible or invisible
-     * depending on whether the expense list is empty.
-     *
-     * @param view The root view where the background image resides.
-     */
     private void hideBackgroundImage(View view) {
+        // Find the LinearLayout containing the background image within the provided view
         LinearLayout linearLayout = view.findViewById(R.id.emptyImageView);
+
+        // Check if the expense list is empty
         if (expenseList.isEmpty()) {
+            // If the list is empty, set the background image layout to be visible
             linearLayout.setVisibility(View.VISIBLE);
         } else {
+            // If the list is not empty, set the background image layout to be invisible
             linearLayout.setVisibility(View.INVISIBLE);
         }
     }
