@@ -357,5 +357,48 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
 
+    /**
+     * Retrieves the total expenses grouped by category from the SQLite database.
+     * Returns a list of CategoryTotal objects representing each category's total expense.
+     *
+     * @return A list of CategoryTotal objects containing the total expenses grouped by category.
+     */
+    public List<CategoryTotal> getExpensesGroupedByCategory() {
+        // Initialize a list to store CategoryTotal objects
+        List<CategoryTotal> categoryTotals = new ArrayList<>();
+
+        // Get a readable database instance
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        // Execute a SQL query to retrieve total expenses grouped by category
+        Cursor cursor = db.rawQuery("SELECT " + COLUMN_CATEGORY + ", SUM(" + COLUMN_AMOUNT + ") " +
+                "FROM " + TABLE_NAME +
+                " GROUP BY " + COLUMN_CATEGORY, null);
+
+        try {
+            // If the cursor moves to the first row of the query result
+            if (cursor.moveToFirst()) {
+                // Iterate through the query results
+                do {
+                    // Retrieve category name and total amount from the cursor
+                    String category = cursor.getString(0);
+                    double totalAmount = cursor.getDouble(1);
+
+                    // Create a CategoryTotal object and add it to the list
+                    CategoryTotal categoryTotal = new CategoryTotal(category, totalAmount);
+                    categoryTotals.add(categoryTotal);
+                } while (cursor.moveToNext()); // Move to the next row until the end of the result set
+            }
+        } finally {
+            // Close the cursor and the database
+            cursor.close();
+            db.close();
+        }
+
+        // Return the list containing CategoryTotal objects with expenses grouped by category
+        return categoryTotals;
+    }
+
+
 
 }
