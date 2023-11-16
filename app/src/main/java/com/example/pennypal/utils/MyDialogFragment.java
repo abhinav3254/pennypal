@@ -124,8 +124,25 @@ public class MyDialogFragment extends DialogFragment {
      * Setup spinners with default items.
      */
     private void setupSpinners() {
+        CustomSpinnerAdapter paymentAdapter = new CustomSpinnerAdapter(getContext(), createPaymentItemList());
+        CustomSpinnerAdapter categoryAdapter = new CustomSpinnerAdapter(getContext(), createCategoryItemList());
+
+        // Set up payment method spinner
+        Spinner paymentMethodSpinner = requireView().findViewById(R.id.paymentMethodSpinner);
+        paymentMethodSpinner.setAdapter(paymentAdapter);
+
+        // Set up category method spinner
+        Spinner categoryMethodSpinner = requireView().findViewById(R.id.categoryMethodSpinner);
+        categoryMethodSpinner.setAdapter(categoryAdapter);
+    }
 
 
+    /**
+     * Creates a list of CustomSpinnerItems representing payment methods along with their associated icons.
+     *
+     * @return List of CustomSpinnerItems for payment methods
+     */
+    private List<CustomSpinnerItem> createPaymentItemList() {
         List<CustomSpinnerItem> itemList = new ArrayList<>();
         itemList.add(new CustomSpinnerItem(R.drawable.payment_upi, "UPI"));
         itemList.add(new CustomSpinnerItem(R.drawable.payment_phonepay, "PhonePe"));
@@ -136,8 +153,16 @@ public class MyDialogFragment extends DialogFragment {
         itemList.add(new CustomSpinnerItem(R.drawable.payment_bharatpe, "BharatPe"));
         itemList.add(new CustomSpinnerItem(R.drawable.payment_amazonpay, "Amazon Pay"));
         itemList.add(new CustomSpinnerItem(R.drawable.payment_airtelpaymentsbank, "Airtel Payments Bank"));
+        return itemList;
+    }
 
 
+    /**
+     * Creates a list of CustomSpinnerItems representing expense categories along with their associated icons.
+     *
+     * @return List of CustomSpinnerItems for expense categories
+     */
+    private List<CustomSpinnerItem> createCategoryItemList() {
         List<CustomSpinnerItem> categoryList = new ArrayList<>();
         categoryList.add(new CustomSpinnerItem(R.drawable.category_alcohol,"Alcohol"));
         categoryList.add(new CustomSpinnerItem(R.drawable.category_bills,"Bills"));
@@ -151,19 +176,7 @@ public class MyDialogFragment extends DialogFragment {
         categoryList.add(new CustomSpinnerItem(R.drawable.category_self,"Self Care"));
         categoryList.add(new CustomSpinnerItem(R.drawable.category_transportation,"Transportation"));
         categoryList.add(new CustomSpinnerItem(R.drawable.category_travel,"Travel"));
-
-
-        CustomSpinnerAdapter adapter = new CustomSpinnerAdapter(getContext(), itemList);
-
-        CustomSpinnerAdapter categoryAdapter = new CustomSpinnerAdapter(getContext(),categoryList);
-
-        // Set up payment method spinner
-        Spinner paymentMethodSpinner = requireView().findViewById(R.id.paymentMethodSpinner);
-        paymentMethodSpinner.setAdapter(adapter);
-
-        // Set up category method spinner
-        Spinner categoryMethodSpinner = requireView().findViewById(R.id.categoryMethodSpinner);
-        categoryMethodSpinner.setAdapter(categoryAdapter);
+        return categoryList;
     }
 
     /**
@@ -216,54 +229,50 @@ public class MyDialogFragment extends DialogFragment {
      * Inserts the expense into the database, displays a message, and refreshes the fragment if successful.
      */
     private void onSaveButtonClick() {
+        if (!areFieldsValid()) {
+            return; // Exit if fields are invalid
+        }
+
         // Create an Expense object and set its properties
         Expense expense = new Expense();
+        expense.setTitle(titleEditText.getText().toString());
+        expense.setAmount(Double.parseDouble(amountEditText.getText().toString()));
 
-        // Validate fields before setting expense properties
-        if (areFieldsValid()) {
-            // Set expense properties if fields are valid
-            expense.setTitle(titleEditText.getText().toString());
-            expense.setAmount(Double.parseDouble(amountEditText.getText().toString()));
+        // Retrieve selected payment type from the custom spinner
+        CustomSpinnerItem selectedPayment = (CustomSpinnerItem) paymentMethodSpinner.getSelectedItem();
+        String selectedPaymentType = selectedPayment.getItemName(); // Assuming getName() returns payment type
 
-            // Retrieve selected payment type from the custom spinner
-            CustomSpinnerItem selectedPayment = (CustomSpinnerItem) paymentMethodSpinner.getSelectedItem();
-            String selectedPaymentType = selectedPayment.getItemName(); // Assuming getName() returns payment type
+        CustomSpinnerItem selectedCategory = (CustomSpinnerItem) categoryMethodSpinner.getSelectedItem();
+        String categoryType = selectedCategory.getItemName();
 
-            CustomSpinnerItem selectedCategory = (CustomSpinnerItem) categoryMethodSpinner.getSelectedItem();
-            String categoryType = selectedCategory.getItemName();
-
-            expense.setPaymentMethod(selectedPaymentType);
-
-            expense.setCategory(categoryType);
-            expense.setDescription(descriptionEditText.getText().toString());
-            expense.setUpdateDate(new Date());
-        } else {
-            // If fields are not valid, exit the method
-            return;
-        }
+        expense.setPaymentMethod(selectedPaymentType);
+        expense.setCategory(categoryType);
+        expense.setDescription(descriptionEditText.getText().toString());
+        expense.setUpdateDate(new Date());
 
         // Parse the selected date and set it in the Expense object
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         try {
-            if (customSelectedDate.isEmpty()) {
-                // If no date is selected, set the current date
-                Date date = dateFormat.parse(new Date().toString());
-                expense.setDate(date);
+            Date date;
+            if (customSelectedDate == null || customSelectedDate.isEmpty()) {
+                date = new Date(); // If no date selected or customSelectedDate is null, use current date
             } else {
-                // Parse the selected date and set it in the Expense object
-                Date date = dateFormat.parse(customSelectedDate);
-                expense.setDate(date);
+                date = dateFormat.parse(customSelectedDate);
             }
+            expense.setDate(date);
         } catch (ParseException e) {
-            // If parsing fails, set the current date
-            expense.setDate(new Date());
+            expense.setDate(new Date()); // Set current date in case of parsing failure
             e.printStackTrace();
+        } catch (NullPointerException e) {
+            expense.setDate(new Date()); // Set current date if customSelectedDate is null
+            e.printStackTrace();
+        } catch (Exception e) {
+            Toast.makeText(getContext(), "Something went wrong "+e.getMessage(), Toast.LENGTH_SHORT).show();
         }
 
-        // Initialize the database helper
-        databaseHelper = new DatabaseHelper(getContext());
 
-        // Insert the expense into the database and get the result
+        // Initialize the database helper and insert the expense
+        databaseHelper = new DatabaseHelper(getContext());
         long value = databaseHelper.insertExpense(expense);
 
         // Show a toast message based on the insertion result
@@ -273,15 +282,12 @@ public class MyDialogFragment extends DialogFragment {
         // Reset input fields and refresh the current fragment only if the insertion was successful
         resetInputFields(isSuccess);
 
-        // If the insertion was successful, dismiss the dialog
+        // If the insertion was successful, dismiss the dialog and notify the HomeFragment
         if (isSuccess) {
             dismiss(); // Close the dialog
-        }
-
-        // After successful insertion, notify the HomeFragment to refresh if listener is not null
-        if (isSuccess && expenseSavedListener != null) {
-            expenseSavedListener.onExpenseSaved(); // Notify the listener in HomeFragment
-            dismiss(); // Close the dialog
+            if (expenseSavedListener != null) {
+                expenseSavedListener.onExpenseSaved(); // Notify the listener in HomeFragment
+            }
         }
     }
 
@@ -415,20 +421,31 @@ public class MyDialogFragment extends DialogFragment {
     }
 
 
+    /**
+     * Override method that creates and configures the dialog window.
+     * This method customizes the appearance and behavior of the dialog box.
+     * It adjusts the dialog's size, background, animations, title visibility,
+     * gravity, dim amount, and display cutout mode for devices with notches.
+     *
+     * @param savedInstanceState A Bundle containing the saved instance state.
+     * @return The configured Dialog object.
+     */
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Dialog dialog = super.onCreateDialog(savedInstanceState);
         Window window = dialog.getWindow();
         if (window != null) {
+            // Set the dialog's layout to match parent, transparent background, no title, center gravity,
+            // a dim amount of 0.8, and a light background color.
             window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
             window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-//            window.setWindowAnimations(R.style.DialogAnimation);
+            // window.setWindowAnimations(R.style.DialogAnimation);
             window.requestFeature(Window.FEATURE_NO_TITLE);
             window.setGravity(Gravity.CENTER);
             window.setDimAmount(0.8f);
             window.setBackgroundDrawableResource(android.R.color.background_light);
 
-            // Create WindowManager.LayoutParams object
+            // Modify window attributes to accommodate display cutouts on devices with notches (Android P or higher).
             WindowManager.LayoutParams layoutParams = window.getAttributes();
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                 layoutParams.layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES;
