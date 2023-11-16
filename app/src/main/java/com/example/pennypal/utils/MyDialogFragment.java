@@ -19,6 +19,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import com.example.pennypal.database.DatabaseHelper;
 import com.example.pennypal.database.Expense;
+import com.example.pennypal.utils.spinner.CustomSpinnerAdapter;
+import com.example.pennypal.utils.spinner.CustomSpinnerItem;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.snackbar.Snackbar;
@@ -26,7 +28,9 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textview.MaterialTextView;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 
@@ -121,11 +125,44 @@ public class MyDialogFragment extends DialogFragment {
      * Setup spinners with default items.
      */
     private void setupSpinners() {
-        String[] items = {"Item 1", "Item 2", "Item 3", "Item 4", "Item 5"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(requireActivity(), android.R.layout.simple_spinner_item, items);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
+
+        List<CustomSpinnerItem> itemList = new ArrayList<>();
+        itemList.add(new CustomSpinnerItem(R.drawable.payment_upi, "UPI"));
+        itemList.add(new CustomSpinnerItem(R.drawable.payment_phonepay, "PhonePe"));
+        itemList.add(new CustomSpinnerItem(R.drawable.payment_paytm, "Paytm"));
+        itemList.add(new CustomSpinnerItem(R.drawable.payment_paypal, "PayPal"));
+        itemList.add(new CustomSpinnerItem(R.drawable.payment_googlepay, "Google Pay"));
+        itemList.add(new CustomSpinnerItem(R.drawable.payment_cred, "CRED"));
+        itemList.add(new CustomSpinnerItem(R.drawable.payment_bharatpe, "BharatPe"));
+        itemList.add(new CustomSpinnerItem(R.drawable.payment_amazonpay, "Amazon Pay"));
+        itemList.add(new CustomSpinnerItem(R.drawable.payment_airtelpaymentsbank, "Airtel Payments Bank"));
+
+
+//        CustomSpinnerAdapter adapter = new CustomSpinnerAdapter(getContext(), itemList);
+//// Add your CustomSpinnerItem objects to itemList...
+//
+//        CustomSpinnerAdapter customAdapter = new CustomSpinnerAdapter(getContext(), itemList);
+//        Spinner customSpinner = requireView().findViewById(R.id.your_custom_spinner_id);
+//        customSpinner.setAdapter(customAdapter);
+//
+//
+//
+////        String[] items = {"Item 1", "Item 2", "Item 3", "Item 4", "Item 5"};
+////        ArrayAdapter<String> adapter = new ArrayAdapter<>(requireActivity(), android.R.layout.simple_spinner_item, items);
+////        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//
+//        paymentMethodSpinner.setAdapter(adapter);
+//        categoryMethodSpinner.setAdapter(adapter);
+
+        CustomSpinnerAdapter adapter = new CustomSpinnerAdapter(getContext(), itemList);
+
+        // Set up payment method spinner
+        Spinner paymentMethodSpinner = requireView().findViewById(R.id.paymentMethodSpinner);
         paymentMethodSpinner.setAdapter(adapter);
+
+        // Set up category method spinner
+        Spinner categoryMethodSpinner = requireView().findViewById(R.id.categoryMethodSpinner);
         categoryMethodSpinner.setAdapter(adapter);
     }
 
