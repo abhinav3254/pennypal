@@ -139,23 +139,24 @@ public class MyDialogFragment extends DialogFragment {
         itemList.add(new CustomSpinnerItem(R.drawable.payment_airtelpaymentsbank, "Airtel Payments Bank"));
 
 
-//        CustomSpinnerAdapter adapter = new CustomSpinnerAdapter(getContext(), itemList);
-//// Add your CustomSpinnerItem objects to itemList...
-//
-//        CustomSpinnerAdapter customAdapter = new CustomSpinnerAdapter(getContext(), itemList);
-//        Spinner customSpinner = requireView().findViewById(R.id.your_custom_spinner_id);
-//        customSpinner.setAdapter(customAdapter);
-//
-//
-//
-////        String[] items = {"Item 1", "Item 2", "Item 3", "Item 4", "Item 5"};
-////        ArrayAdapter<String> adapter = new ArrayAdapter<>(requireActivity(), android.R.layout.simple_spinner_item, items);
-////        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//
-//        paymentMethodSpinner.setAdapter(adapter);
-//        categoryMethodSpinner.setAdapter(adapter);
+        List<CustomSpinnerItem> categoryList = new ArrayList<>();
+        categoryList.add(new CustomSpinnerItem(R.drawable.category_alcohol,"Alcohol"));
+        categoryList.add(new CustomSpinnerItem(R.drawable.category_bills,"Bills"));
+        categoryList.add(new CustomSpinnerItem(R.drawable.category_cigarette,"Cigarette"));
+        categoryList.add(new CustomSpinnerItem(R.drawable.category_education,"Education"));
+        categoryList.add(new CustomSpinnerItem(R.drawable.category_extra,"Extra"));
+        categoryList.add(new CustomSpinnerItem(R.drawable.category_entertainment,"Entertainment"));
+        categoryList.add(new CustomSpinnerItem(R.drawable.category_food,"Food"));
+        categoryList.add(new CustomSpinnerItem(R.drawable.category_health,"Health"));
+        categoryList.add(new CustomSpinnerItem(R.drawable.category_rent,"Rent"));
+        categoryList.add(new CustomSpinnerItem(R.drawable.category_self,"Self Care"));
+        categoryList.add(new CustomSpinnerItem(R.drawable.category_transportation,"Transportation"));
+        categoryList.add(new CustomSpinnerItem(R.drawable.category_travel,"Travel"));
+
 
         CustomSpinnerAdapter adapter = new CustomSpinnerAdapter(getContext(), itemList);
+
+        CustomSpinnerAdapter categoryAdapter = new CustomSpinnerAdapter(getContext(),categoryList);
 
         // Set up payment method spinner
         Spinner paymentMethodSpinner = requireView().findViewById(R.id.paymentMethodSpinner);
@@ -163,7 +164,7 @@ public class MyDialogFragment extends DialogFragment {
 
         // Set up category method spinner
         Spinner categoryMethodSpinner = requireView().findViewById(R.id.categoryMethodSpinner);
-        categoryMethodSpinner.setAdapter(adapter);
+        categoryMethodSpinner.setAdapter(categoryAdapter);
     }
 
     /**
