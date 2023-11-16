@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.ArrayAdapter;
 import androidx.fragment.app.DialogFragment;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -230,9 +229,12 @@ public class MyDialogFragment extends DialogFragment {
             CustomSpinnerItem selectedPayment = (CustomSpinnerItem) paymentMethodSpinner.getSelectedItem();
             String selectedPaymentType = selectedPayment.getItemName(); // Assuming getName() returns payment type
 
+            CustomSpinnerItem selectedCategory = (CustomSpinnerItem) categoryMethodSpinner.getSelectedItem();
+            String categoryType = selectedCategory.getItemName();
+
             expense.setPaymentMethod(selectedPaymentType);
 
-            expense.setCategory(selectedPaymentType);
+            expense.setCategory(categoryType);
             expense.setDescription(descriptionEditText.getText().toString());
             expense.setUpdateDate(new Date());
         } else {

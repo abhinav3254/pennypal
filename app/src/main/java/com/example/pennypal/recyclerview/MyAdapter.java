@@ -1,11 +1,14 @@
 package com.example.pennypal.recyclerview;
 
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -108,10 +111,70 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
             // Ensure the position is valid
             if (position != RecyclerView.NO_POSITION) {
                 // Retrieve the clicked Expense object
+                // Inside your RecyclerView adapter's onBindViewHolder or wherever you initialize the Expense object:
                 Expense clickedExpense = data.get(position);
+                String category = clickedExpense.getCategory();
+                String paymentMethod = clickedExpense.getPaymentMethod();
+
+                Drawable categoryDrawable;
+                Drawable paymentMethodDrawable;
+
+// Assign drawables based on category
+                if (category.equalsIgnoreCase("Alcohol")) {
+                    categoryDrawable = ContextCompat.getDrawable(view.getContext(), R.drawable.category_alcohol);
+                } else if (category.equalsIgnoreCase("Bills")) {
+                    categoryDrawable = ContextCompat.getDrawable(view.getContext(), R.drawable.category_bills);
+                } else if (category.equalsIgnoreCase("Cigarette")) {
+                    categoryDrawable = ContextCompat.getDrawable(view.getContext(), R.drawable.category_cigarette);
+                } else if (category.equalsIgnoreCase("Education")) {
+                    categoryDrawable = ContextCompat.getDrawable(view.getContext(), R.drawable.category_education);
+                } else if (category.equalsIgnoreCase("Extra")) {
+                    categoryDrawable = ContextCompat.getDrawable(view.getContext(), R.drawable.category_extra);
+                } else if (category.equalsIgnoreCase("Entertainment")) {
+                    categoryDrawable = ContextCompat.getDrawable(view.getContext(), R.drawable.category_entertainment);
+                } else if (category.equalsIgnoreCase("Food")) {
+                    categoryDrawable = ContextCompat.getDrawable(view.getContext(), R.drawable.category_food);
+                } else if (category.equalsIgnoreCase("Health")) {
+                    categoryDrawable = ContextCompat.getDrawable(view.getContext(), R.drawable.category_health);
+                } else if (category.equalsIgnoreCase("Rent")) {
+                    categoryDrawable = ContextCompat.getDrawable(view.getContext(), R.drawable.category_rent);
+                } else if (category.equalsIgnoreCase("Self Care")) {
+                    categoryDrawable = ContextCompat.getDrawable(view.getContext(), R.drawable.category_self);
+                } else if (category.equalsIgnoreCase("Transportation")) {
+                    categoryDrawable = ContextCompat.getDrawable(view.getContext(), R.drawable.category_transportation);
+                } else if (category.equalsIgnoreCase("Travel")) {
+                    categoryDrawable = ContextCompat.getDrawable(view.getContext(), R.drawable.category_travel);
+                } else {
+                    // Default category image if none of the conditions match
+                    categoryDrawable = ContextCompat.getDrawable(view.getContext(), R.drawable.category_self);
+                }
+
+// Assign drawables based on payment method
+                if (paymentMethod.equalsIgnoreCase("UPI")) {
+                    paymentMethodDrawable = ContextCompat.getDrawable(view.getContext(), R.drawable.payment_upi);
+                } else if (paymentMethod.equalsIgnoreCase("PhonePe")) {
+                    paymentMethodDrawable = ContextCompat.getDrawable(view.getContext(), R.drawable.payment_phonepay);
+                } else if (paymentMethod.equalsIgnoreCase("Paytm")) {
+                    paymentMethodDrawable = ContextCompat.getDrawable(view.getContext(), R.drawable.payment_paytm);
+                } else if (paymentMethod.equalsIgnoreCase("PayPal")) {
+                    paymentMethodDrawable = ContextCompat.getDrawable(view.getContext(), R.drawable.payment_paypal);
+                } else if (paymentMethod.equalsIgnoreCase("Google Pay")) {
+                    paymentMethodDrawable = ContextCompat.getDrawable(view.getContext(), R.drawable.payment_googlepay);
+                } else if (paymentMethod.equalsIgnoreCase("CRED")) {
+                    paymentMethodDrawable = ContextCompat.getDrawable(view.getContext(), R.drawable.payment_cred);
+                } else if (paymentMethod.equalsIgnoreCase("BharatPe")) {
+                    paymentMethodDrawable = ContextCompat.getDrawable(view.getContext(), R.drawable.payment_bharatpe);
+                } else if (paymentMethod.equalsIgnoreCase("Amazon Pay")) {
+                    paymentMethodDrawable = ContextCompat.getDrawable(view.getContext(), R.drawable.payment_amazonpay);
+                } else if (paymentMethod.equalsIgnoreCase("Airtel Payments Bank")) {
+                    paymentMethodDrawable = ContextCompat.getDrawable(view.getContext(), R.drawable.payment_airtelpaymentsbank);
+                } else {
+                    // Default payment method image if none of the conditions match
+                    paymentMethodDrawable = ContextCompat.getDrawable(view.getContext(), R.drawable.payment_paytm);
+                }
 
                 // Open the bottom sheet with the clicked Expense data
-                openBottomSheet(clickedExpense);
+                openBottomSheet(clickedExpense,paymentMethodDrawable,categoryDrawable);
             }
         }
 
@@ -120,15 +183,15 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
          *
          * @param expense The expense for which the bottom sheet is opened.
          */
-        private void openBottomSheet(Expense expense) {
+        private void openBottomSheet(Expense expense,Drawable paymentMethodDrawable,Drawable categoryDrawable) {
             // Check if the context is an instance of FragmentActivity
-            showBottomSheetDialog(expense);
+            showBottomSheetDialog(expense,paymentMethodDrawable,categoryDrawable);
         }
 
         /**
          * Shows a bottom sheet dialog with options such as copy, share, download, and delete.
          */
-        private void showBottomSheetDialog(Expense expense) {
+        private void showBottomSheetDialog(Expense expense,Drawable paymentMethodDrawable,Drawable categoryDrawable) {
             // Create a new BottomSheetDialog
             final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(itemView.getContext());
 
@@ -147,6 +210,15 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
             TextView paymentMethod = bottomSheetDialog.findViewById(R.id.paymentMethod);
             TextView date = bottomSheetDialog.findViewById(R.id.date);
             TextView description = bottomSheetDialog.findViewById(R.id.description);
+
+            ImageView paymentImage = bottomSheetDialog.findViewById(R.id.paymentImage);
+            ImageView categoryImage = bottomSheetDialog.findViewById(R.id.categoryImage);
+
+
+
+            paymentImage.setImageDrawable(paymentMethodDrawable);
+            categoryImage.setImageDrawable(categoryDrawable);
+
 
 
             downloadText.setText(expense.getTitle());
