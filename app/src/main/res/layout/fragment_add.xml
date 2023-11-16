@@ -8,7 +8,9 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        >
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -67,32 +69,24 @@
 
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <LinearLayout
+                <Spinner
+                    android:layout_margin="5dp"
+                    android:id="@+id/paymentMethodSpinner"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_height="60dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/border_background" />
+
+                <Spinner
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
                     android:layout_marginBottom="10dp"
-                    android:orientation="horizontal">
+                    android:id="@+id/categoryMethodSpinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/border_background" />
 
-                    <Spinner
-                        android:id="@+id/paymentMethodSpinner"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:background="@drawable/border_background" />
-
-                    <Spinner
-                        android:id="@+id/categoryMethodSpinner"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="5dp"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:background="@drawable/border_background" />
-
-                </LinearLayout>
 
 
 
