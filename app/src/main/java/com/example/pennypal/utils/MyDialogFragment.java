@@ -21,6 +21,7 @@ import com.example.pennypal.database.DatabaseHelper;
 import com.example.pennypal.database.Expense;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.datepicker.MaterialDatePicker;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textview.MaterialTextView;
 import java.text.ParseException;
@@ -173,25 +174,40 @@ public class MyDialogFragment extends DialogFragment {
     }
 
     /**
-     * Handle the click event of the save button.
-     * Create an Expense object, set its properties, and insert it into the database.
+     * Handles the click event of the save button.
+     * Creates an Expense object and sets its properties based on user input.
+     * Inserts the expense into the database, displays a message, and refreshes the fragment if successful.
      */
     private void onSaveButtonClick() {
         // Create an Expense object and set its properties
         Expense expense = new Expense();
-        expense.setTitle(titleEditText.getText().toString());
-        expense.setAmount(Double.parseDouble(amountEditText.getText().toString()));
-        expense.setPaymentMethod(paymentMethodSpinner.getSelectedItem().toString());
-        expense.setCategory(categoryMethodSpinner.getSelectedItem().toString());
-        expense.setDescription(descriptionEditText.getText().toString());
-        expense.setUpdateDate(new Date());
+
+        // Validate fields before setting expense properties
+        if (areFieldsValid()) {
+            // Set expense properties if fields are valid
+            expense.setTitle(titleEditText.getText().toString());
+            expense.setAmount(Double.parseDouble(amountEditText.getText().toString()));
+            expense.setPaymentMethod(paymentMethodSpinner.getSelectedItem().toString());
+            expense.setCategory(categoryMethodSpinner.getSelectedItem().toString());
+            expense.setDescription(descriptionEditText.getText().toString());
+            expense.setUpdateDate(new Date());
+        } else {
+            // If fields are not valid, exit the method
+            return;
+        }
 
         // Parse the selected date and set it in the Expense object
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         try {
-            Date date = dateFormat.parse(customSelectedDate);
-            System.out.println("Parsed Date: " + date);
-            expense.setDate(date);
+            if (customSelectedDate.isEmpty()) {
+                // If no date is selected, set the current date
+                Date date = dateFormat.parse(new Date().toString());
+                expense.setDate(date);
+            } else {
+                // Parse the selected date and set it in the Expense object
+                Date date = dateFormat.parse(customSelectedDate);
+                expense.setDate(date);
+            }
         } catch (ParseException e) {
             // If parsing fails, set the current date
             expense.setDate(new Date());
@@ -211,18 +227,76 @@ public class MyDialogFragment extends DialogFragment {
         // Reset input fields and refresh the current fragment only if the insertion was successful
         resetInputFields(isSuccess);
 
-        // If the insertion was successful, notify the HomeFragment to refresh
+        // If the insertion was successful, dismiss the dialog
         if (isSuccess) {
             dismiss(); // Close the dialog
         }
 
-        // In onSaveButtonClick(), after successful insertion:
+        // After successful insertion, notify the HomeFragment to refresh if listener is not null
         if (isSuccess && expenseSavedListener != null) {
             expenseSavedListener.onExpenseSaved(); // Notify the listener in HomeFragment
             dismiss(); // Close the dialog
         }
-
     }
+
+
+    /**
+     * Validates the input fields before creating an Expense object.
+     * Checks each field individually for emptiness or selection (in case of spinners).
+     * Displays a Snackbar message for each validation error and returns false if any field is invalid.
+     *
+     * @return True if all fields are valid, otherwise false.
+     */
+    private boolean areFieldsValid() {
+        boolean isValid = true;
+
+        // Validate title field
+        if (titleEditText.getText().toString().trim().isEmpty()) {
+            isValid = false;
+            showSnackbar("Title field can't be empty");
+        }
+
+        // Validate amount field
+        if (amountEditText.getText().toString().trim().isEmpty()) {
+            isValid = false;
+            showSnackbar("Amount field can't be empty");
+        }
+
+        // Validate payment method spinner
+        if (paymentMethodSpinner.getSelectedItem().toString().isEmpty()) {
+            isValid = false;
+            showSnackbar("Please select a payment method");
+        }
+
+        // Validate category method spinner
+        if (categoryMethodSpinner.getSelectedItem().toString().isEmpty()) {
+            isValid = false;
+            showSnackbar("Please select a category");
+        }
+
+        // Validate description field
+        if (descriptionEditText.getText().toString().trim().isEmpty()) {
+            isValid = false;
+            showSnackbar("Description field can't be empty");
+        }
+
+        return isValid;
+    }
+
+
+    /**
+     * Displays a Snackbar message with the provided message string.
+     * Shows a Snackbar at the root view of the fragment indicating a validation error.
+     *
+     * @param message The message to display in the Snackbar.
+     */
+    private void showSnackbar(String message) {
+        View rootView = requireView(); // Change this to your root view
+        Snackbar snackbar = Snackbar.make(rootView, message, Snackbar.LENGTH_SHORT);
+        snackbar.show();
+    }
+
+
 
     /**
      * Reset input fields and refresh the current fragment.
