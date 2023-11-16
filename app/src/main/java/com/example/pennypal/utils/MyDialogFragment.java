@@ -224,8 +224,14 @@ public class MyDialogFragment extends DialogFragment {
             // Set expense properties if fields are valid
             expense.setTitle(titleEditText.getText().toString());
             expense.setAmount(Double.parseDouble(amountEditText.getText().toString()));
-            expense.setPaymentMethod(paymentMethodSpinner.getSelectedItem().toString());
-            expense.setCategory(categoryMethodSpinner.getSelectedItem().toString());
+
+            // Retrieve selected payment type from the custom spinner
+            CustomSpinnerItem selectedPayment = (CustomSpinnerItem) paymentMethodSpinner.getSelectedItem();
+            String selectedPaymentType = selectedPayment.getItemName(); // Assuming getName() returns payment type
+
+            expense.setPaymentMethod(selectedPaymentType);
+
+            expense.setCategory(selectedPaymentType);
             expense.setDescription(descriptionEditText.getText().toString());
             expense.setUpdateDate(new Date());
         } else {
