@@ -13,4 +13,11 @@
     <color name="eight">#110f22</color>
     <color name="nine">#3d6268</color>
 
+
+    <color name="yellow">#F4CE14</color>
+    <color name="pink">#ED9ED6</color>
+    <color name="blue">#83A2FF</color>
+    <color name="red">#D80032</color>
+    <color name="orange">#FF6C22</color>
+
 </resources>
