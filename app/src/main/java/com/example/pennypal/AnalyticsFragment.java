@@ -100,21 +100,65 @@ public class AnalyticsFragment extends Fragment {
         }
     }
 
-    public void setUpNameOfCategory(List<String> list,View view) {
-
+    public void setUpNameOfCategory(List<String> list, View view) {
         TextView textView1 = view.findViewById(R.id.chartTextBox1);
         TextView textView2 = view.findViewById(R.id.chartTextBox2);
         TextView textView3 = view.findViewById(R.id.chartTextBox3);
         TextView textView4 = view.findViewById(R.id.chartTextBox4);
         TextView textView5 = view.findViewById(R.id.chartTextBox5);
 
-        textView1.setText(list.get(0));
-        textView2.setText(list.get(1));
-        textView3.setText(list.get(2));
-        textView4.setText(list.get(3));
-        textView5.setText(list.get(4));
+        View view1 = view.findViewById(R.id.chartView1);
+        View view2 = view.findViewById(R.id.chartView2);
+        View view3 = view.findViewById(R.id.chartView3);
+        View view4 = view.findViewById(R.id.chartView4);
+        View view5 = view.findViewById(R.id.chartView5);
 
+        if (list.size() >= 1) {
+            textView1.setText(list.get(0));
+            textView1.setVisibility(View.VISIBLE);
+            view1.setVisibility(View.VISIBLE);
+        } else {
+            textView1.setVisibility(View.INVISIBLE);
+            view1.setVisibility(View.INVISIBLE);
+        }
+
+        if (list.size() >= 2) {
+            textView2.setText(list.get(1));
+            textView2.setVisibility(View.VISIBLE);
+            view2.setVisibility(View.VISIBLE);
+        } else {
+            textView2.setVisibility(View.INVISIBLE);
+            view2.setVisibility(View.INVISIBLE);
+        }
+
+        if (list.size() >= 3) {
+            textView3.setText(list.get(2));
+            textView3.setVisibility(View.VISIBLE);
+            view3.setVisibility(View.VISIBLE);
+        } else {
+            textView3.setVisibility(View.INVISIBLE);
+            view3.setVisibility(View.INVISIBLE);
+        }
+
+        if (list.size() >= 4) {
+            textView4.setText(list.get(3));
+            textView4.setVisibility(View.VISIBLE);
+            view4.setVisibility(View.VISIBLE);
+        } else {
+            textView4.setVisibility(View.INVISIBLE);
+            view4.setVisibility(View.INVISIBLE);
+        }
+
+        if (list.size() >= 5) {
+            textView5.setText(list.get(4));
+            textView5.setVisibility(View.VISIBLE);
+            view5.setVisibility(View.VISIBLE);
+        } else {
+            textView5.setVisibility(View.INVISIBLE);
+            view5.setVisibility(View.INVISIBLE);
+        }
     }
+
 
 
     private int getRandomColor() {
