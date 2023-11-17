@@ -49,9 +49,11 @@
                             android:id="@+id/parentLayout"
                             android:layout_weight="1"
                             android:layout_width="0dp"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:orientation="vertical"
+                            android:gravity="center_vertical"
                             android:layout_gravity="center_horizontal"
+                            android:layout_margin="10dp"
                             >
 
                             <LinearLayout
@@ -64,14 +66,14 @@
 
                                 <!-- View for the chart -->
                                 <View
-                                    android:id="@+id/chartView"
+                                    android:id="@+id/chartView1"
                                     android:layout_width="20dp"
                                     android:layout_height="20dp"
-                                    android:background="@color/purple_two" />
+                                    android:background="@color/yellow" />
 
-                                <!-- TextBox (EditText) -->
+                                <!-- TextBox -->
                                 <TextView
-                                    android:id="@+id/chartTextBox"
+                                    android:id="@+id/chartTextBox1"
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
@@ -80,6 +82,118 @@
                                     android:padding="8dp" />
 
                             </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:gravity="center_vertical"
+                                android:padding="2dp"
+                                >
+
+                                <!-- View for the chart -->
+                                <View
+                                    android:id="@+id/chartView2"
+                                    android:layout_width="20dp"
+                                    android:layout_height="20dp"
+                                    android:background="@color/pink" />
+
+                                <!-- TextBox -->
+                                <TextView
+                                    android:id="@+id/chartTextBox2"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:hint="Enter Data"
+                                    android:inputType="text"
+                                    android:padding="8dp" />
+
+                            </LinearLayout>
+
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:gravity="center_vertical"
+                                android:padding="2dp"
+                                >
+
+                                <!-- View for the chart -->
+                                <View
+                                    android:id="@+id/chartView3"
+                                    android:layout_width="20dp"
+                                    android:layout_height="20dp"
+                                    android:background="@color/blue" />
+
+                                <!-- TextBox -->
+                                <TextView
+                                    android:id="@+id/chartTextBox3"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:hint="Enter Data"
+                                    android:inputType="text"
+                                    android:padding="8dp" />
+
+                            </LinearLayout>
+
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:gravity="center_vertical"
+                                android:padding="2dp"
+                                >
+
+                                <!-- View for the chart -->
+                                <View
+                                    android:id="@+id/chartView4"
+                                    android:layout_width="20dp"
+                                    android:layout_height="20dp"
+                                    android:background="@color/red" />
+
+                                <!-- TextBox -->
+                                <TextView
+                                    android:id="@+id/chartTextBox4"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:hint="Enter Data"
+                                    android:inputType="text"
+                                    android:padding="8dp" />
+
+                            </LinearLayout>
+
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:gravity="center_vertical"
+                                android:padding="2dp"
+                                >
+
+                                <!-- View for the chart -->
+                                <View
+                                    android:id="@+id/chartView5"
+                                    android:layout_width="20dp"
+                                    android:layout_height="20dp"
+                                    android:background="@color/orange" />
+
+                                <!-- TextBox -->
+                                <TextView
+                                    android:id="@+id/chartTextBox5"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:hint="Enter Data"
+                                    android:inputType="text"
+                                    android:padding="8dp" />
+
+                            </LinearLayout>
+
 
 
                         </LinearLayout>

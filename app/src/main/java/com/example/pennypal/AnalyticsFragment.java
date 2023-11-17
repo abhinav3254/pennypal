@@ -11,14 +11,18 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.pennypal.database.CategoryTotal;
 import com.example.pennypal.database.DatabaseHelper;
+import com.example.pennypal.utils.piechart.CustomPieModel;
 
 import org.eazegraph.lib.charts.PieChart;
 import org.eazegraph.lib.models.PieModel;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -43,6 +47,7 @@ public class AnalyticsFragment extends Fragment {
         return view;
     }
 
+
     private void setupPieChart(View view) {
         PieChart pieChart = view.findViewById(R.id.piechart);
 
@@ -55,20 +60,62 @@ public class AnalyticsFragment extends Fragment {
             // Clear any existing slices in the PieChart
             pieChart.clearChart();
 
+            List<Integer> colors = Arrays.asList(
+                    R.color.yellow, R.color.pink, R.color.blue, R.color.red, R.color.orange
+            );
+
+            List<CustomPieModel> customPieModelList = new ArrayList<>();
+
+            List<String> categoryNameList = new ArrayList<>();
+
+            int count = 0;
             // Iterate through the CategoryTotal objects and add slices to the PieChart
             for (CategoryTotal categoryTotal : categoryTotals) {
-                String categoryName = categoryTotal.getCategory();
-                double totalAmount = categoryTotal.getTotalAmount();
-                int color = getRandomColor();
+                if (count > 4) {
+                    break;
+                }
 
-                // Add a pie slice to the PieChart for each category
-                pieChart.addPieSlice(new PieModel(categoryName, (float) totalAmount, color));
+                String categoryName = categoryTotal.getCategory();
+                categoryNameList.add(categoryName);
+                double totalAmount = categoryTotal.getTotalAmount();
+
+                int color = ContextCompat.getColor(view.getContext(), colors.get(count));
+                customPieModelList.add(new CustomPieModel(categoryName, color, totalAmount));
+                count++;
             }
+
+            // Add pie slices to the PieChart using the customPieModelList
+            for (CustomPieModel customPieModel : customPieModelList) {
+                pieChart.addPieSlice(new PieModel(
+                        customPieModel.getName(),
+                        (float) customPieModel.getTotalAmount(),
+                        customPieModel.getColor())
+                );
+            }
+
+            setUpNameOfCategory(categoryNameList,view);
 
             // Start animation for the PieChart
             pieChart.startAnimation();
         }
     }
+
+    public void setUpNameOfCategory(List<String> list,View view) {
+
+        TextView textView1 = view.findViewById(R.id.chartTextBox1);
+        TextView textView2 = view.findViewById(R.id.chartTextBox2);
+        TextView textView3 = view.findViewById(R.id.chartTextBox3);
+        TextView textView4 = view.findViewById(R.id.chartTextBox4);
+        TextView textView5 = view.findViewById(R.id.chartTextBox5);
+
+        textView1.setText(list.get(0));
+        textView2.setText(list.get(1));
+        textView3.setText(list.get(2));
+        textView4.setText(list.get(3));
+        textView5.setText(list.get(4));
+
+    }
+
 
     private int getRandomColor() {
         Random random = new Random();
