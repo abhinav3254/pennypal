@@ -77,9 +77,12 @@
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
+                                    android:autoSizeMaxTextSize="20sp"
+                                    android:autoSizeMinTextSize="10sp"
                                     android:hint="Enter Data"
                                     android:inputType="text"
-                                    android:padding="8dp" />
+                                    android:padding="8dp"
+                                    android:textSize="10sp" />
 
                             </LinearLayout>
 
@@ -104,9 +107,12 @@
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
+                                    android:autoSizeMaxTextSize="20sp"
+                                    android:autoSizeMinTextSize="10sp"
                                     android:hint="Enter Data"
                                     android:inputType="text"
-                                    android:padding="8dp" />
+                                    android:padding="8dp"
+                                    android:textSize="10sp" />
 
                             </LinearLayout>
 
@@ -132,9 +138,12 @@
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
+                                    android:autoSizeMaxTextSize="20sp"
+                                    android:autoSizeMinTextSize="10sp"
                                     android:hint="Enter Data"
                                     android:inputType="text"
-                                    android:padding="8dp" />
+                                    android:padding="8dp"
+                                    android:textSize="10sp" />
 
                             </LinearLayout>
 
@@ -160,9 +169,12 @@
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
+                                    android:autoSizeMaxTextSize="20sp"
+                                    android:autoSizeMinTextSize="10sp"
                                     android:hint="Enter Data"
                                     android:inputType="text"
-                                    android:padding="8dp" />
+                                    android:padding="8dp"
+                                    android:textSize="10sp" />
 
                             </LinearLayout>
 
@@ -188,9 +200,12 @@
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
+                                    android:autoSizeMaxTextSize="20sp"
+                                    android:autoSizeMinTextSize="10sp"
                                     android:hint="Enter Data"
                                     android:inputType="text"
-                                    android:padding="8dp" />
+                                    android:padding="8dp"
+                                    android:textSize="10sp" />
 
                             </LinearLayout>
 
