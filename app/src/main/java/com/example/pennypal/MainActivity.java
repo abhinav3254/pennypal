@@ -36,6 +36,9 @@ import java.util.List;
  * The navigation drawer allows access to different sections of the app.
  * Action bar items include settings, exporting data as PDF, and truncating the expense table.
  * The class implements BottomNavigationView.OnNavigationItemSelectedListener for handling bottom navigation item clicks.
+ *
+ *
+ * @author abhinavkumar 18 Nov 2023
  */
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
