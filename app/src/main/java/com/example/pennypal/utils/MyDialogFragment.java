@@ -176,6 +176,8 @@ public class MyDialogFragment extends DialogFragment {
         categoryList.add(new CustomSpinnerItem(R.drawable.category_self,"Self Care"));
         categoryList.add(new CustomSpinnerItem(R.drawable.category_transportation,"Transportation"));
         categoryList.add(new CustomSpinnerItem(R.drawable.category_travel,"Travel"));
+        categoryList.add(new CustomSpinnerItem(R.drawable.category_loan,"EMI"));
+        categoryList.add(new CustomSpinnerItem(R.drawable.category_stocks,"Stocks"));
         return categoryList;
     }
 
