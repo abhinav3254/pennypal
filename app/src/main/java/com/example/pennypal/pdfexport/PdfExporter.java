@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -54,6 +56,9 @@ public class PdfExporter {
 
         String filePath = directory.getAbsolutePath() + File.separator + fileName;
 
+        // Create a Handler tied to the main Looper
+        Handler handler = new Handler(Looper.getMainLooper());
+
         try {
             PdfWriter writer = new PdfWriter(filePath);
             PdfDocument pdfDocument = new PdfDocument(writer);
@@ -84,15 +89,18 @@ public class PdfExporter {
             document.add(table);
             document.close();
 
+            final String successMessage = "PDF exported successfully to: " + filePath;
+            handler.post(() -> Toast.makeText(context, successMessage, Toast.LENGTH_LONG).show());
             Log.d("PdfExporter", "PDF exported successfully to: " + filePath);
-            Toast.makeText(context, "PDF exported successfully to: " + filePath, Toast.LENGTH_LONG).show();
 
         } catch (IOException e) {
             e.printStackTrace();
-            Toast.makeText(context, "Error exporting PDF: " + e.getMessage(), Toast.LENGTH_LONG).show();
-            Log.e("PdfExporter", "Error exporting PDF: " + e.getMessage());
+            final String errorMessage = "Error exporting PDF: " + e.getMessage();
+            handler.post(() -> Toast.makeText(context, errorMessage, Toast.LENGTH_LONG).show());
+            Log.e("PdfExporter", errorMessage);
         }
     }
+
 
     /**
      * Handles the result of the file directory selection.

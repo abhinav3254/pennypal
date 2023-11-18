@@ -282,4 +282,26 @@ public class HomeFragment extends Fragment implements MyDialogFragment.OnExpense
         retrieveExpenses(); // Retrieve expenses again and update the RecyclerView
     }
 
+
+    // Method in HomeFragment to refresh data when called
+    public void refreshFragmentData() {
+        // Fetch data from the database again
+        DatabaseHelper databaseHelper = new DatabaseHelper(getActivity()); // Assuming HomeFragment is attached to MainActivity
+        List<Expense> updatedExpenseList = databaseHelper.getAllExpenses(); // Fetch updated data
+
+        // Update your UI or data in the fragment based on the new data
+        // For example, if you're using a RecyclerView in HomeFragment:
+        if (getActivity() != null) {
+            RecyclerView recyclerView = getActivity().findViewById(R.id.recyclerView); // Replace with your RecyclerView ID
+            if (recyclerView != null) {
+                // Assuming you have an adapter set for the RecyclerView
+                MyAdapter adapter = (MyAdapter) recyclerView.getAdapter();
+                if (adapter != null) {
+                    adapter.updateData(updatedExpenseList); // Update adapter data
+                    adapter.notifyDataSetChanged(); // Notify adapter
+                }
+            }
+        }
+    }
+
 }
