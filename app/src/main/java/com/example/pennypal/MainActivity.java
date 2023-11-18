@@ -198,16 +198,27 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
 
     // Method to export data as PDF
+    /**
+     * Initiates the process of exporting data from the database to a PDF file.
+     * It displays a progress dialog indicating the export process, then starts
+     * a background thread to perform the export operation. Upon completion (success
+     * or error), it dismisses the progress dialog and displays an appropriate
+     * toast message on the main UI thread.
+     */
     private void exportDataAsPDF() {
+        // Create and display a progress dialog to indicate the export process
         ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Exporting data as PDF...");
         progressDialog.setCancelable(false);
         progressDialog.show();
 
+        // Perform export operation in a background thread
         new Thread(() -> {
-            // Perform export operation in a background thread
             try {
+                // Create an instance of DatabaseHelper to access the database
                 DatabaseHelper databaseHelper = new DatabaseHelper(MainActivity.this);
+
+                // Invoke the PdfExporter class to export data to PDF
                 PdfExporter.exportDataToPdf(MainActivity.this, databaseHelper);
 
                 // Show a success message on the main UI thread
@@ -217,7 +228,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 });
             } catch (Exception e) {
                 e.printStackTrace();
-                // Handle any exceptions here
+                // Handle any exceptions occurred during the export process
                 runOnUiThread(() -> {
                     progressDialog.dismiss();
                     Toast.makeText(MainActivity.this, "Error exporting data", Toast.LENGTH_SHORT).show();
