@@ -38,13 +38,11 @@ public class ExcelExporter {
      * @param databaseHelper  An instance of DatabaseHelper to fetch expense data.
      */
     public static void exportDataToExcel(Context context, DatabaseHelper databaseHelper) {
-        // Create a progress dialog to indicate the export process
         ProgressDialog progressDialog = new ProgressDialog(context);
         progressDialog.setMessage("Exporting data as Excel...");
-        progressDialog.setCancelable(false); // Prevent dismissing by tapping outside
+        progressDialog.setCancelable(false);
         progressDialog.show();
 
-        // Perform export operation in a background thread
         new Thread(() -> {
             try {
                 // Create a new Excel workbook and sheet
@@ -54,10 +52,34 @@ public class ExcelExporter {
                 // Fetch expense data from the database
                 List<Expense> expenseList = databaseHelper.getAllExpenses();
 
-                // Populate the Excel sheet with expense data (header and rows)
+                // Adding headers
+                Row headerRow = sheet.createRow(0);
+                headerRow.createCell(0).setCellValue("Title");
+                headerRow.createCell(1).setCellValue("Amount");
+                headerRow.createCell(2).setCellValue("Category");
+                headerRow.createCell(3).setCellValue("Payment Method");
+                headerRow.createCell(4).setCellValue("Description");
+                headerRow.createCell(5).setCellValue("Date");
+                headerRow.createCell(6).setCellValue("Update Date");
 
-                // Create a file for the exported Excel data
-                File file = createFile(context, "abhinav_excel.xlsx");
+                // Adding data rows
+                int rowNum = 1;
+                for (Expense expense : expenseList) {
+                    Row row = sheet.createRow(rowNum++);
+                    row.createCell(0).setCellValue(expense.getTitle());
+                    row.createCell(1).setCellValue(expense.getAmount());
+                    row.createCell(2).setCellValue(expense.getCategory());
+                    row.createCell(3).setCellValue(expense.getPaymentMethod());
+                    row.createCell(4).setCellValue(expense.getDescription());
+                    row.createCell(5).setCellValue(expense.getDate().toString());
+                    row.createCell(6).setCellValue(expense.getUpdateDate().toString());
+                    // ... Add other expense data to respective cells
+                }
+
+                // Create a file for the exported Excel data in the Downloads directory
+                File downloadsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+                File file = new File(downloadsDir, "abhinav_excel.xlsx");
+
                 FileOutputStream fileOut = new FileOutputStream(file);
                 workbook.write(fileOut);
                 fileOut.close();
@@ -70,10 +92,9 @@ public class ExcelExporter {
 
             } catch (IOException e) {
                 e.printStackTrace();
-                // Dismiss the progress dialog and display an error message on the UI thread
                 progressDialog.dismiss();
                 Handler handler = new Handler(Looper.getMainLooper());
-                handler.post(() -> Toast.makeText(context, "Error exporting Excel file", Toast.LENGTH_SHORT).show());
+                handler.post(() -> Toast.makeText(context, "Error exporting Excel file" + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show());
                 Log.e("ExcelExporter", "Error exporting Excel file: " + e.getMessage());
             }
         }).start();
@@ -93,10 +114,16 @@ public class ExcelExporter {
         // Get the download directory for the application
         File directory = getDownloadDirectory(context, "PennyPal");
 
+        // Check if the directory doesn't exist, then create it
+        if (!directory.exists()) {
+            if (!directory.mkdirs()) {
+                throw new IOException("Unable to create directory");
+            }
+        }
+
         // Create a File object with the specified fileName in the obtained directory
         return new File(directory, fileName);
     }
-
 
     /**
      * Retrieves the download directory for storing files.
