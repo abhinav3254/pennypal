@@ -105,14 +105,22 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
 
     // Method to export data as Excel
+    /**
+     * Initiates the process of exporting data from the database to an Excel file.
+     * It creates an instance of DatabaseHelper and uses the ExcelExporter class
+     * to handle the export operation to Excel format.
+     */
     private void exportDataAsExcel() {
-        // Assuming you have an instance of DatabaseHelper
-        DatabaseHelper databaseHelper = new DatabaseHelper(this);
+        try {
+            // Assuming you have an instance of DatabaseHelper
+            DatabaseHelper databaseHelper = new DatabaseHelper(this);
 
-        // Call the ExcelExporter class to export data as Excel
-        ExcelExporter.exportDataToExcel(this, databaseHelper);
+            // Call the ExcelExporter class to export data as Excel
+            ExcelExporter.exportDataToExcel(this, databaseHelper);
+        } catch (Exception e) {
+            Toast.makeText(this, "Error in exporting data", Toast.LENGTH_SHORT).show();
+        }
     }
-
 
 
 
