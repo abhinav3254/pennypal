@@ -13,17 +13,21 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pennypal.database.DatabaseHelper;
+import com.example.pennypal.database.Expense;
 import com.example.pennypal.excel.ExcelExporter;
 import com.example.pennypal.pdfexport.PdfExporter;
+import com.example.pennypal.recyclerview.MyAdapter;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.util.List;
 
 
 /**
  *
- * @author abhinavkumar
+ * @author abhinav3254
  * The MainActivity class represents the main activity of the PennyPal app.
  * It includes a navigation drawer, bottom navigation view, and fragments for home, add, and profile.
  * Users can navigate between fragments using the bottom navigation view.
@@ -35,6 +39,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     private DrawerLayout drawerLayout;
     private BottomNavigationView bottomNavigationView;
+
+
+    private RecyclerView expenseRecyclerView;
+    private MyAdapter expenseAdapter;
 
     // Define fragments
     HomeFragment homeFragment = new HomeFragment();
@@ -136,6 +144,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 // User clicked Yes, proceed with truncating the table
                 DatabaseHelper databaseHelper = new DatabaseHelper(MainActivity.this);
                 databaseHelper.truncateExpenseTable();
+                refreshData();
                 Toast.makeText(MainActivity.this, "Delete Everything", Toast.LENGTH_SHORT).show();
             }
         });
@@ -149,6 +158,40 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         // Create and show the AlertDialog
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+
+    /**
+     * Fetches updated data from the database and updates the adapter.
+     * If the adapter is null, initializes it with the updated data.
+     * Refreshes the HomeFragment's data.
+     *
+     * @author @abhinav3254 18 Nov 2023
+     */
+    public void refreshData() {
+        // Fetch data from the database again
+        DatabaseHelper databaseHelper = new DatabaseHelper(MainActivity.this);
+        List<Expense> updatedExpenseList = databaseHelper.getAllExpenses(); // Assuming this method fetches all expenses from the database
+
+        // Update the adapter with the new data
+        if (expenseAdapter != null) {
+            expenseAdapter.updateData(updatedExpenseList); // You need to implement this method in your adapter to update its dataset
+            expenseAdapter.notifyDataSetChanged();
+        } else {
+            // Reinitialize or initialize expenseAdapter if it's null
+            // For example, if expenseAdapter is a RecyclerView adapter:
+            expenseAdapter = new MyAdapter(updatedExpenseList); // Create a new instance of your adapter with updated data
+            RecyclerView recyclerView = findViewById(R.id.recyclerView); // Replace with your RecyclerView ID
+            recyclerView.setAdapter(expenseAdapter); // Set the adapter to the RecyclerView
+
+            // Or if expenseAdapter is a custom adapter, adjust this section accordingly
+        }
+
+        // Refresh the HomeFragment
+        HomeFragment homeFragment = (HomeFragment) getSupportFragmentManager().findFragmentByTag("HomeFragment");
+        if (homeFragment != null) {
+            homeFragment.refreshFragmentData(); // Call the method to refresh the fragment's data
+        }
     }
 
 
