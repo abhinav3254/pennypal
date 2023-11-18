@@ -1,5 +1,6 @@
 package com.example.pennypal;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.Menu;
@@ -198,12 +199,34 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     // Method to export data as PDF
     private void exportDataAsPDF() {
-        // Assuming you have an instance of DatabaseHelper
-        DatabaseHelper databaseHelper = new DatabaseHelper(this);
+        ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Exporting data as PDF...");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
 
-        // Call the PdfExporter class to export data as PDF
-        PdfExporter.exportDataToPdf(this, databaseHelper);
+        new Thread(() -> {
+            // Perform export operation in a background thread
+            try {
+                DatabaseHelper databaseHelper = new DatabaseHelper(MainActivity.this);
+                PdfExporter.exportDataToPdf(MainActivity.this, databaseHelper);
+
+                // Show a success message on the main UI thread
+                runOnUiThread(() -> {
+                    progressDialog.dismiss();
+                    Toast.makeText(MainActivity.this, "Data exported as PDF", Toast.LENGTH_SHORT).show();
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+                // Handle any exceptions here
+                runOnUiThread(() -> {
+                    progressDialog.dismiss();
+                    Toast.makeText(MainActivity.this, "Error exporting data", Toast.LENGTH_SHORT).show();
+                });
+            }
+        }).start();
     }
+
+
 
 
     @Override
