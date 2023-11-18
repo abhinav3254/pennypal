@@ -3,6 +3,7 @@ package com.example.pennypal;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -127,7 +128,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             // Call the ExcelExporter class to export data as Excel
             ExcelExporter.exportDataToExcel(this, databaseHelper);
         } catch (Exception e) {
-            Toast.makeText(this, "Error in exporting data", Toast.LENGTH_SHORT).show();
+            Log.d("3254excel", "exportDataAsExcel: "+e.getMessage());
+            Toast.makeText(this, "Error in exporting data"+e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
