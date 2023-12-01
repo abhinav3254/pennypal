@@ -28,6 +28,8 @@ import java.util.Random;
 
 
 /**
+ *
+ * @author abhinavkumar
  * A Fragment class representing the analytics view.
  *
  * This Fragment is responsible for displaying analytics data in various forms,
