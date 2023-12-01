@@ -3,6 +3,8 @@ package com.example.pennypal.database;
 import java.util.Date;
 
 /**
+ *
+ * @author abhinavkumar
  * The Expense class represents a financial expense with details such as title, amount, category, etc.
  */
 public class Expense {
