@@ -21,6 +21,8 @@ import java.util.List;
 import java.util.Locale;
 
 /**
+ *
+ * @author abhinavkumar
  * The MyAdapter class is a RecyclerView adapter responsible for managing and displaying Expense data.
  */
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {

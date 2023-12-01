@@ -12,6 +12,8 @@ import java.util.List;
 
 
 /**
+ *
+ * @author abhinavkumar
  * DatabaseHelper class manages the SQLite database for expense-related data.
  */
 public class DatabaseHelper extends SQLiteOpenHelper {
