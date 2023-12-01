@@ -62,8 +62,6 @@ import com.example.pennypal.R;
  */
 public class MyDialogFragment extends DialogFragment {
 
-    // Existing code...
-
     private DatabaseHelper databaseHelper;
 
     private OnExpenseSavedListener expenseSavedListener;
