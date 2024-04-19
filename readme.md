@@ -1,3 +1,4 @@
+# Native Android Application
 # PennyPal App
 
 PennyPal is a simple Android app for tracking expenses.
