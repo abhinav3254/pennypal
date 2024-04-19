@@ -166,14 +166,6 @@ If you find a bug, please open an issue describing the problem. Include details 
 
 For new features or enhancements, open an issue to discuss the proposed changes before working on them. This helps in maintaining a clear roadmap for the project.
 
-## Pull Request Guidelines
-
-- Ensure that your pull request has a clear title and description.
-- Reference relevant issues in your pull request.
-- Include screenshots or GIFs to demonstrate UI changes if applicable.
-- Keep pull requests focused on a single feature or bug fix.
-- Be responsive to feedback and be willing to make changes if necessary.
-
 ## Code of Conduct
 
 This project follows the [Code of Conduct](CODE_OF_CONDUCT.md). By participating, you agree to uphold this code.
